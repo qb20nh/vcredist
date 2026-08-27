@@ -13,6 +13,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+Import-Module (Join-Path $PSScriptRoot 'RuntimeInputPolicy.psm1') -Force
+
 function Get-LockFile {
     param([string]$Path)
 
@@ -61,23 +63,12 @@ function Assert-VerifiedFile {
     }
 }
 
-$approvedHosts = @(
-    'download.microsoft.com',
-    'download.windowsupdate.com',
-    'download.visualstudio.microsoft.com',
-    'dotnetcli.blob.core.windows.net',
-    'builds.dotnet.microsoft.com'
-)
-
 $lock = Get-LockFile -Path $LockFile
 $resolvedDestination = [IO.Path]::GetFullPath($Destination)
 New-Item -ItemType Directory -Force -Path $resolvedDestination | Out-Null
 
 foreach ($input in $lock.inputs | Sort-Object id) {
-    $uri = [Uri]$input.sourceUrl
-    if ($uri.Scheme -ne 'https' -or $approvedHosts -notcontains $uri.Host.ToLowerInvariant()) {
-        throw "Input '$($input.id)' does not use an approved canonical Microsoft HTTPS host."
-    }
+    $uri = Assert-ApprovedRuntimeInputUrl -SourceUrl $input.sourceUrl -InputId $input.id
     if ($input.fileName -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') {
         throw "Unsafe file name for '$($input.id)'."
     }

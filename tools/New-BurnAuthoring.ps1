@@ -19,6 +19,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+Import-Module (Join-Path $PSScriptRoot 'RuntimeInputPolicy.psm1') -Force
+
 function Escape-Xml([object]$Value) {
     return [Security.SecurityElement]::Escape([string]$Value)
 }
@@ -52,8 +54,26 @@ if ($Architecture -eq 'arm64' -and @($selected | Where-Object feature -eq 'direc
     throw 'DirectX June 2010 must not be authored for ARM64 without a reviewed ARM64 package.'
 }
 
+# Validate the complete selection before opening the output. A bad later entry
+# must never leave behind a syntactically usable, partially authored fragment.
+foreach ($input in $selected) {
+    foreach ($field in 'id', 'feature', 'fileName', 'sourceUrl', 'sha256', 'sha512', 'size', 'version', 'signerSubjectContains', 'installArguments', 'detectCondition', 'licenseUrl') {
+        if ([string]::IsNullOrWhiteSpace([string]$input.PSObject.Properties[$field].Value)) {
+            throw "Input '$($input.id)' has no '$field'."
+        }
+    }
+    if ($input.id -like 'example-*') { throw "Example input '$($input.id)' cannot be authored." }
+    if ($input.fileName -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') {
+        throw "Unsafe file name for '$($input.id)'."
+    }
+    Feature-Variable $input.feature | Out-Null
+    Assert-ApprovedRuntimeInputUrl -SourceUrl $input.sourceUrl -InputId $input.id | Out-Null
+}
+
 $outputDirectory = Split-Path -Parent $OutputFile
-New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
+if (-not [string]::IsNullOrEmpty($outputDirectory)) {
+    New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
+}
 
 $writerSettings = [Xml.XmlWriterSettings]::new()
 $writerSettings.Indent = $true
@@ -67,13 +87,6 @@ try {
     $writer.WriteAttributeString('Id', 'RuntimeInputs')
 
     foreach ($input in $selected) {
-        foreach ($field in 'id', 'feature', 'fileName', 'sourceUrl', 'sha256', 'sha512', 'size', 'version', 'signerSubjectContains', 'installArguments', 'detectCondition', 'licenseUrl') {
-            if ([string]::IsNullOrWhiteSpace([string]$input.PSObject.Properties[$field].Value)) {
-                throw "Input '$($input.id)' has no '$field'."
-            }
-        }
-        if ($input.id -like 'example-*') { throw "Example input '$($input.id)' cannot be authored." }
-
         $writer.WriteStartElement('ExePackage')
         $packageId = Wix-Identifier $input.id
         $writer.WriteAttributeString('Id', $packageId)
