@@ -3,6 +3,46 @@ Set-StrictMode -Version Latest
 
 . (Join-Path $PSScriptRoot '..\tools\RuntimeInputLock.ps1')
 
+function Assert-LockRejectsCasingVariant {
+    param([string]$Description, [scriptblock]$Mutate)
+
+    $manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'fixtures\runtime-inputs.bootstrap-fixture.json') -Raw | ConvertFrom-Json
+    & $Mutate $manifest
+    $temporary = Join-Path ([IO.Path]::GetTempPath()) "runtime-input-$([Guid]::NewGuid()).json"
+    try {
+        [IO.File]::WriteAllText($temporary, ($manifest | ConvertTo-Json -Depth 10))
+        try {
+            Read-RuntimeInputLock -Path $temporary | Out-Null
+            throw "$Description was accepted."
+        }
+        catch {
+            if ($_.Exception.Message -eq "$Description was accepted.") { throw }
+        }
+    }
+    finally { Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue }
+}
+
+Assert-LockRejectsCasingVariant -Description 'A case-variant required root property' -Mutate {
+    param($manifest)
+    $value = $manifest.PSObject.Properties['schemaVersion'].Value
+    $manifest.PSObject.Properties.Remove('schemaVersion')
+    $manifest | Add-Member -NotePropertyName 'SchemaVersion' -NotePropertyValue $value
+}
+Assert-LockRejectsCasingVariant -Description 'A case-variant required input property' -Mutate {
+    param($manifest)
+    $value = $manifest.inputs[0].PSObject.Properties['fileName'].Value
+    $manifest.inputs[0].PSObject.Properties.Remove('fileName')
+    $manifest.inputs[0] | Add-Member -NotePropertyName 'FileName' -NotePropertyValue $value
+}
+Assert-LockRejectsCasingVariant -Description 'A case-variant feature enum value' -Mutate {
+    param($manifest)
+    $manifest.inputs[0].feature = 'VC-REDIST-V14'
+}
+Assert-LockRejectsCasingVariant -Description 'A case-variant architecture enum value' -Mutate {
+    param($manifest)
+    $manifest.inputs[0].architecture = 'X64'
+}
+
 $approved = 'Microsoft Corporation'
 $unrelatedSubject = 'CN=Contoso Software, O=Contoso Ltd'
 $unrelatedValidSignature = [pscustomobject]@{
