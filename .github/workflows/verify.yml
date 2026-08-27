@@ -26,6 +26,9 @@ jobs:
       - name: Exercise Burn authoring input policy
         shell: pwsh
         run: ./tests/Test-BurnAuthoringInputPolicy.ps1
+      - name: Exercise runtime input trust boundary
+        shell: pwsh
+        run: ./tests/Test-RuntimeInputLock.ps1
       - name: Compile all native bootstrap architectures with a non-installable fixture
         shell: pwsh
         run: >-
