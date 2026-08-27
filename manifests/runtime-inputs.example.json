@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "supportedDotnetCycles": ["8", "9", "10"],
+  "inputs": [
+    {
+      "id": "example-only-not-a-release-input",
+      "feature": "vc-redist-v14",
+      "architecture": "x64",
+      "fileName": "example.exe",
+      "sourceUrl": "https://download.microsoft.com/example.exe",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha512": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size": 1,
+      "version": "1.0",
+      "signerSubjectContains": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": "0",
+      "licenseUrl": "https://www.microsoft.com/licensing/"
+    }
+  ]
+}

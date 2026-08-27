@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "supportedDotnetCycles": ["8", "9", "10"],
+  "inputs": [
+    {
+      "id": "fixture-vc-redist-x64",
+      "feature": "vc-redist-v14",
+      "architecture": "x64",
+      "fileName": "fixture-vc-redist-x64.exe",
+      "sourceUrl": "https://download.microsoft.com/fixture-vc-redist-x64.exe",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha512": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size": 1,
+      "version": "1.0.0.0",
+      "signerSubjectContains": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": "0",
+      "licenseUrl": "https://www.microsoft.com/licensing/"
+    },
+    {
+      "id": "fixture-vc-redist-x86",
+      "feature": "vc-redist-v14",
+      "architecture": "x86",
+      "fileName": "fixture-vc-redist-x86.exe",
+      "sourceUrl": "https://download.microsoft.com/fixture-vc-redist-x86.exe",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sha512": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size": 1,
+      "version": "1.0.0.0",
+      "signerSubjectContains": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": "0",
+      "licenseUrl": "https://www.microsoft.com/licensing/"
+    },
+    {
+      "id": "fixture-vc-redist-arm64",
+      "feature": "vc-redist-v14",
+      "architecture": "arm64",
+      "fileName": "fixture-vc-redist-arm64.exe",
+      "sourceUrl": "https://download.microsoft.com/fixture-vc-redist-arm64.exe",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "sha512": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "size": 1,
+      "version": "1.0.0.0",
+      "signerSubjectContains": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": "0",
+      "licenseUrl": "https://www.microsoft.com/licensing/"
+    }
+  ]
+}

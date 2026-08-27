@@ -1,0 +1,10 @@
+# Reproducible builds must start from verified inputs, never from an accidental local cache.
+**/bin/
+**/obj/
+artifacts/
+inputs/
+*.wixpdb
+*.wixproj.user
+*.msi
+*.exe
+!tools/*.exe
