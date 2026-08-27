@@ -94,7 +94,7 @@ function Test-ApprovedSignerSubject {
 
     return $Expected -ceq $script:ApprovedSignerSubject -and
         -not [string]::IsNullOrEmpty($Actual) -and
-        $Actual.Contains($Expected, [StringComparison]::OrdinalIgnoreCase)
+        $Actual.IndexOf($Expected, [StringComparison]::OrdinalIgnoreCase) -ge 0
 }
 
 function Test-ApprovedAuthenticodeSignature {
