@@ -62,6 +62,11 @@ $misleadingValidSignature = [pscustomobject]@{
     Status = 'Valid'
     SignerCertificate = [pscustomobject]@{ Subject = $misleadingSubject }
 }
+$quotedCommaSubject = 'CN="Contoso, O=Microsoft Corporation, subsidiary", O=Contoso Ltd'
+$quotedCommaValidSignature = [pscustomobject]@{
+    Status = 'Valid'
+    SignerCertificate = [pscustomobject]@{ Subject = $quotedCommaSubject }
+}
 foreach ($metacharacter in '*', '?', '[Microsoft Corporation]') {
     if (Test-ApprovedAuthenticodeSignature -Signature $unrelatedValidSignature -ExpectedSubject $metacharacter) {
         throw "Wildcard signer policy '$metacharacter' accepted an unrelated valid Authenticode signature."
@@ -88,6 +93,12 @@ if (-not (Test-ApprovedSignerSubject -Expected $approved -Actual 'CN=Microsoft C
 }
 if (Test-ApprovedAuthenticodeSignature -Signature $misleadingValidSignature -ExpectedSubject $approved) {
     throw 'A non-Microsoft organization with Microsoft Corporation in its common name was accepted.'
+}
+if (Test-ApprovedAuthenticodeSignature -Signature $quotedCommaValidSignature -ExpectedSubject $approved) {
+    throw 'A quoted common name was split into a false Microsoft organization.'
+}
+if (-not (Test-ApprovedSignerSubject -Expected $approved -Actual 'CN="Runtime, Pack", O=Microsoft Corporation')) {
+    throw 'A valid Microsoft organization with a quoted common name was not recognized.'
 }
 if (Test-ApprovedSignerSubject -Expected 'microsoft corporation' -Actual 'CN=Microsoft Corporation, O=Microsoft Corporation') {
     throw 'A lockfile signer policy with different casing was accepted.'
