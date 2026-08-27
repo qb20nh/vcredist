@@ -29,6 +29,9 @@ jobs:
       - name: Exercise runtime input trust boundary
         shell: pwsh
         run: ./tests/Test-RuntimeInputLock.ps1
+      - name: Exercise runtime input trust boundary under Windows PowerShell
+        shell: pwsh
+        run: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./tests/Test-RuntimeInputLock.ps1
       - name: Compile all native bootstrap architectures with a non-installable fixture
         shell: pwsh
         run: >-
