@@ -20,6 +20,9 @@ jobs:
         run: dotnet restore src/Bundle/RuntimePack.Bundle.wixproj --locked-mode
       - name: Exercise selection policy
         run: dotnet run --project tests/RuntimeInstaller.Tests.csproj --configuration Release
+      - name: Exercise release evidence filename validation
+        shell: pwsh
+        run: ./tests/Test-ReleaseEvidence.ps1
       - name: Compile all native bootstrap architectures with a non-installable fixture
         shell: pwsh
         run: >-
