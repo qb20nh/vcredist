@@ -3,6 +3,7 @@
 **/obj/
 **/build/
 artifacts/
+intermediate/
 inputs/
 *.wixpdb
 *.wixproj.user
