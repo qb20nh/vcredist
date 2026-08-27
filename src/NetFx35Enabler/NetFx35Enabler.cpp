@@ -1,6 +1,7 @@
 // Runtime Pack Verified - public-domain source; see the repository LICENSE.
 // Enables the OS-owned NetFx3 capability by invoking only the system DISM binary.
 #include <windows.h>
+#include <shellapi.h>
 
 #include <iostream>
 #include <string>
@@ -98,14 +99,28 @@ int EnableNetFx3() {
 
 } // namespace
 
-int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
-    if (commandLine != nullptr && wcsstr(commandLine, L"--self-test") != nullptr) {
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
+    int argumentCount = 0;
+    wchar_t** arguments = CommandLineToArgvW(GetCommandLineW(), &argumentCount);
+    if (arguments == nullptr) {
+        return static_cast<int>(GetLastError());
+    }
+
+    if (argumentCount != 2) {
+        LocalFree(arguments);
+        return ERROR_INVALID_PARAMETER;
+    }
+
+    const std::wstring mode = arguments[1];
+    LocalFree(arguments);
+
+    if (mode == L"--self-test") {
         const std::wstring dismPath = GetSystemDismPath();
         return (!dismPath.empty() && GetFileAttributesW(dismPath.c_str()) != INVALID_FILE_ATTRIBUTES)
             ? ERROR_SUCCESS
             : ERROR_FILE_NOT_FOUND;
     }
-    if (commandLine != nullptr && (wcsstr(commandLine, L"/?") != nullptr || wcsstr(commandLine, L"--help") != nullptr)) {
+    if (mode == L"--help") {
         MessageBoxW(nullptr,
             L"Enables the Windows NetFx3 capability using the OS servicing stack.\n\n"
             L"It uses local component files, an administrator-configured repair source, or Windows Update.\n"
@@ -113,5 +128,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
             L"Runtime Pack Verified - .NET Framework 3.5", MB_OK | MB_ICONINFORMATION);
         return ERROR_SUCCESS;
     }
-    return EnableNetFx3();
+    if (mode == L"--enable") {
+        return EnableNetFx3();
+    }
+    return ERROR_INVALID_PARAMETER;
 }
