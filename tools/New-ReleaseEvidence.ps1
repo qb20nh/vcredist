@@ -23,9 +23,34 @@ if ($lock.schemaVersion -ne 1 -or $null -eq $lock.inputs -or $lock.inputs.Count 
     throw 'A populated version 1 input lockfile is required for release evidence.'
 }
 
-$artifacts = @(Get-ChildItem -LiteralPath $ArtifactDirectory -Filter '*.exe' -File | Sort-Object Name)
-if ($artifacts.Count -ne 6) {
-    throw "Expected exactly six bundles (three architectures times two modes); found $($artifacts.Count)."
+$bundleVersion = $Version -replace '^v', ''
+if ([string]::IsNullOrWhiteSpace($bundleVersion)) {
+    throw 'Version must contain a value after an optional leading v.'
+}
+
+$expectedBundles = @(
+    foreach ($architecture in @('x86', 'x64', 'arm64')) {
+        foreach ($mode in @('Bootstrap', 'Standalone')) {
+            [pscustomobject]@{
+                name = "RuntimePack-$bundleVersion-$architecture-$mode.exe"
+                architecture = $architecture
+                mode = $mode
+            }
+        }
+    }
+)
+$artifacts = @(Get-ChildItem -LiteralPath $ArtifactDirectory -File | Where-Object Extension -IEQ '.exe' | Sort-Object Name)
+$actualNames = @($artifacts | ForEach-Object Name)
+$expectedNames = @($expectedBundles | ForEach-Object name)
+$missing = @($expectedNames | Where-Object { $actualNames -cnotcontains $_ })
+$unexpected = @($actualNames | Where-Object { $expectedNames -cnotcontains $_ })
+$duplicates = @($actualNames | Group-Object | Where-Object Count -gt 1 | ForEach-Object Name)
+if ($missing.Count -ne 0 -or $unexpected.Count -ne 0 -or $duplicates.Count -ne 0) {
+    $problems = @()
+    if ($missing.Count -ne 0) { $problems += "missing: $($missing -join ', ')" }
+    if ($unexpected.Count -ne 0) { $problems += "unexpected: $($unexpected -join ', ')" }
+    if ($duplicates.Count -ne 0) { $problems += "duplicate: $($duplicates -join ', ')" }
+    throw "Release bundle filenames do not match the expected architecture/mode matrix ($($problems -join '; '))."
 }
 
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
@@ -65,6 +90,14 @@ $metadata = [ordered]@{
     bundleCount = $artifacts.Count
     inputLockSha256 = (Get-FileHash -LiteralPath $LockFile -Algorithm SHA256).Hash.ToLowerInvariant()
     generatedAtUtc = [DateTime]::UtcNow.ToString('o')
-    bundles = @($artifacts | ForEach-Object { [ordered]@{ name = $_.Name; size = $_.Length } })
+    bundles = @($artifacts | ForEach-Object {
+        $bundle = $expectedBundles | Where-Object name -CEQ $_.Name
+        [ordered]@{
+            name = $_.Name
+            architecture = $bundle.architecture
+            mode = $bundle.mode
+            size = $_.Length
+        }
+    })
 }
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'release-metadata.json'), ($metadata | ConvertTo-Json -Depth 5), [Text.UTF8Encoding]::new($false))
