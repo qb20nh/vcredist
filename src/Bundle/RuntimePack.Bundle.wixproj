@@ -7,6 +7,7 @@
     <BundleVersion Condition="'$(BundleVersion)' == ''">0.1.0</BundleVersion>
     <RuntimeInputLockFile Condition="'$(RuntimeInputLockFile)' == ''">$(MSBuildThisFileDirectory)..\..\tests\fixtures\runtime-inputs.bootstrap-fixture.json</RuntimeInputLockFile>
     <RuntimeInputsDirectory Condition="'$(RuntimeInputsDirectory)' == ''">$(MSBuildThisFileDirectory)..\..\inputs</RuntimeInputsDirectory>
+    <NetFx35HelperPath Condition="'$(NetFx35HelperPath)' == ''">$(MSBuildThisFileDirectory)..\NetFx35Enabler\build\$(TargetArchitecture)\RuntimePack.NetFx35Enabler.exe</NetFx35HelperPath>
     <RuntimeInputLockFileFullPath>$([System.IO.Path]::GetFullPath('$(RuntimeInputLockFile)'))</RuntimeInputLockFileFullPath>
     <GeneratedAuthoring>$(MSBuildProjectDirectory)\obj\$(Configuration)\generated\RuntimeInputs.wxs</GeneratedAuthoring>
     <OutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetArchitecture)\$(BundleMode)\</OutputPath>
@@ -43,7 +44,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DefineConstants>BundleVersion=$(BundleVersion);BundleMode=$(BundleMode);TargetArchitecture=$(TargetArchitecture);RuntimeInputsDirectory=$(RuntimeInputsDirectory);BundleUpgradeCode=$(BundleUpgradeCode);DirectXAvailable=$(DirectXAvailable)</DefineConstants>
+    <DefineConstants>BundleVersion=$(BundleVersion);BundleMode=$(BundleMode);TargetArchitecture=$(TargetArchitecture);RuntimeInputsDirectory=$(RuntimeInputsDirectory);NetFx35HelperPath=$(NetFx35HelperPath);BundleUpgradeCode=$(BundleUpgradeCode);DirectXAvailable=$(DirectXAvailable)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

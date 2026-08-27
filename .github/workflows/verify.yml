@@ -25,3 +25,6 @@ jobs:
         run: >-
           ./tools/Build-Bundles.ps1 -LockFile tests/fixtures/runtime-inputs.bootstrap-fixture.json
           -Mode Bootstrap -Architecture All -Version 0.0.0
+      - name: Verify native architecture and the non-mutating NetFx3 self-test
+        shell: pwsh
+        run: ./tests/Test-NativeArtifacts.ps1 -Version 0.0.0
