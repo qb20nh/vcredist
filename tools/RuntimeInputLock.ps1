@@ -94,7 +94,7 @@ function Test-ApprovedSignerSubject {
 
     return $Expected -ceq $script:ApprovedSignerSubject -and
         -not [string]::IsNullOrEmpty($Actual) -and
-        $Actual.IndexOf($Expected, [StringComparison]::OrdinalIgnoreCase) -ge 0
+        $Actual -imatch '(?:^|,\s*)O\s*=\s*Microsoft Corporation(?:\s*,|$)'
 }
 
 function Test-ApprovedAuthenticodeSignature {

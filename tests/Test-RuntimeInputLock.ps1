@@ -9,6 +9,11 @@ $unrelatedValidSignature = [pscustomobject]@{
     Status = 'Valid'
     SignerCertificate = [pscustomobject]@{ Subject = $unrelatedSubject }
 }
+$misleadingSubject = 'CN=Microsoft Corporation Tools, O=Contoso Ltd'
+$misleadingValidSignature = [pscustomobject]@{
+    Status = 'Valid'
+    SignerCertificate = [pscustomobject]@{ Subject = $misleadingSubject }
+}
 foreach ($metacharacter in '*', '?', '[Microsoft Corporation]') {
     if (Test-ApprovedAuthenticodeSignature -Signature $unrelatedValidSignature -ExpectedSubject $metacharacter) {
         throw "Wildcard signer policy '$metacharacter' accepted an unrelated valid Authenticode signature."
@@ -32,6 +37,12 @@ foreach ($metacharacter in '*', '?', '[Microsoft Corporation]') {
 
 if (-not (Test-ApprovedSignerSubject -Expected $approved -Actual 'CN=Microsoft Corporation, O=Microsoft Corporation')) {
     throw 'The approved literal signer was not recognized.'
+}
+if (Test-ApprovedAuthenticodeSignature -Signature $misleadingValidSignature -ExpectedSubject $approved) {
+    throw 'A non-Microsoft organization with Microsoft Corporation in its common name was accepted.'
+}
+if (Test-ApprovedSignerSubject -Expected 'microsoft corporation' -Actual 'CN=Microsoft Corporation, O=Microsoft Corporation') {
+    throw 'A lockfile signer policy with different casing was accepted.'
 }
 
 Write-Host 'Runtime input lock validation tests passed.'
