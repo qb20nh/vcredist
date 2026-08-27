@@ -20,24 +20,77 @@ if (plan.Count != 2 || plan.Single(item => item.Feature == "dotnet-framework").I
     throw new Exception("The highest compatible .NET Framework input was not selected.");
 }
 
-try
-{
-    InstallerPlan.Resolve(
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Resolve(
         new[] { input },
-        new InstallSelection(TargetArchitecture.Arm64, new HashSet<string> { "directx-legacy" }));
-    throw new Exception("ARM64 DirectX selection was not rejected.");
-}
-catch (InvalidOperationException)
-{
-}
+        new InstallSelection(TargetArchitecture.Arm64, new HashSet<string> { "directx-legacy" })),
+    "no reviewed ARM64 input");
 
-try
-{
-    InstallerPlan.Validate(input with { Url = "https://example.invalid/runtime.exe" });
-    throw new Exception("Unapproved source host was not rejected.");
-}
-catch (InvalidOperationException)
-{
-}
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { Url = "https://example.invalid/runtime.exe" }),
+    "approved Microsoft host");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Resolve(
+        new[] { input },
+        new InstallSelection(TargetArchitecture.X64, new HashSet<string>())),
+    "At least one feature");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Resolve(
+        new[] { input },
+        new InstallSelection(TargetArchitecture.X64, new HashSet<string> { "unknown-runtime" })),
+    "Unknown feature: unknown-runtime");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Resolve(
+        new[] { input },
+        new InstallSelection(TargetArchitecture.Arm64, new HashSet<string> { "dotnet-desktop" })),
+    "No reviewed dotnet-desktop input is available for Arm64");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { Sha256 = "not-a-sha256-digest" }),
+    "invalid SHA-256 digest");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { Url = "http://download.microsoft.com/runtime.exe" }),
+    "does not use HTTPS");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { SignerSubject = "CN=Contoso Software" }),
+    "unexpected signer");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Resolve(
+        new[]
+        {
+            frameworkNew,
+            frameworkNew with { Id = "framework-481-duplicate", Sha256 = new string('d', 64) },
+        },
+        new InstallSelection(TargetArchitecture.X64, new HashSet<string> { "dotnet-framework" })),
+    "resolve to one highest-ranked input");
 
 Console.WriteLine("RuntimeInstaller tests passed.");
+
+static void AssertThrows<TException>(Action action, string? expectedMessageFragment = null)
+    where TException : Exception
+{
+    try
+    {
+        action();
+    }
+    catch (TException exception)
+    {
+        if (expectedMessageFragment is not null &&
+            !exception.Message.Contains(expectedMessageFragment, StringComparison.Ordinal))
+        {
+            throw new Exception(
+                $"Expected {typeof(TException).Name} message to contain '{expectedMessageFragment}', " +
+                $"but it was '{exception.Message}'.");
+        }
+
+        return;
+    }
+
+    throw new Exception($"Expected {typeof(TException).Name} to be thrown.");
+}
