@@ -14,6 +14,12 @@ Both modes expose the same selectable features: VC++ v14, supported .NET
 Desktop and ASP.NET Core runtimes, OS-compatible .NET Framework, and legacy
 DirectX June 2010 side-by-side libraries. ARM32 is deliberately unsupported.
 
+When selected, .NET Framework 3.5 is fully automated through Windows servicing:
+the bundle invokes the operating system's own DISM capability path, which uses
+local component files, an enterprise-configured repair source, or Windows
+Update. It does not embed a mismatched Windows media payload or prompt users
+for a source path.
+
 ## What is verified
 
 Every runtime input is recorded in an immutable, reviewed manifest with its
