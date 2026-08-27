@@ -14,22 +14,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 Import-Module (Join-Path $PSScriptRoot 'RuntimeInputPolicy.psm1') -Force
-
-function Get-LockFile {
-    param([string]$Path)
-
-    $raw = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
-    if ($raw.schemaVersion -ne 1 -or $null -eq $raw.inputs -or $raw.inputs.Count -eq 0) {
-        throw "'$Path' is not a populated version 1 runtime input lockfile."
-    }
-
-    foreach ($input in $raw.inputs) {
-        if ($input.id -like 'example-*') {
-            throw "Example input '$($input.id)' cannot be used for a build."
-        }
-    }
-    return $raw
-}
+. (Join-Path $PSScriptRoot 'RuntimeInputLock.ps1')
 
 function Assert-VerifiedFile {
     param(
@@ -57,22 +42,17 @@ function Assert-VerifiedFile {
     }
 
     $signature = Get-AuthenticodeSignature -LiteralPath $Path
-    if ($signature.Status -ne 'Valid' -or $null -eq $signature.SignerCertificate -or
-        $signature.SignerCertificate.Subject -notlike "*$($Input.signerSubjectContains)*") {
+    if (-not (Test-ApprovedAuthenticodeSignature -Signature $signature -ExpectedSubject $Input.signerSubjectContains)) {
         throw "Authenticode validation failed for '$($Input.id)': status '$($signature.Status)', subject '$($signature.SignerCertificate.Subject)'."
     }
 }
 
-$lock = Get-LockFile -Path $LockFile
+$lock = Read-RuntimeInputLock -Path $LockFile
 $resolvedDestination = [IO.Path]::GetFullPath($Destination)
 New-Item -ItemType Directory -Force -Path $resolvedDestination | Out-Null
 
 foreach ($input in $lock.inputs | Sort-Object id) {
     $uri = Assert-ApprovedRuntimeInputUrl -SourceUrl $input.sourceUrl -InputId $input.id
-    if ($input.fileName -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') {
-        throw "Unsafe file name for '$($input.id)'."
-    }
-
     $target = Join-Path $resolvedDestination $input.fileName
     if (-not (Test-Path -LiteralPath $target -PathType Leaf)) {
         if ($NoDownload) {

@@ -18,6 +18,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'RuntimeInputLock.ps1')
 
 Import-Module (Join-Path $PSScriptRoot 'RuntimeInputPolicy.psm1') -Force
 
@@ -41,10 +42,7 @@ function Wix-Identifier([string]$Value) {
     return 'P_' + ($Value -replace '[^A-Za-z0-9_.]', '_')
 }
 
-$lock = Get-Content -LiteralPath $LockFile -Raw | ConvertFrom-Json
-if ($lock.schemaVersion -ne 1 -or $null -eq $lock.inputs -or $lock.inputs.Count -eq 0) {
-    throw "'$LockFile' is not a populated version 1 lockfile."
-}
+$lock = Read-RuntimeInputLock -Path $LockFile
 
 $selected = @($lock.inputs | Where-Object { $_.architecture -eq $Architecture } | Sort-Object feature, cycle, id)
 if ($selected.Count -eq 0) {

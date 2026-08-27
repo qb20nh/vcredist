@@ -17,11 +17,9 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'RuntimeInputLock.ps1')
 
-$lock = Get-Content -LiteralPath $LockFile -Raw | ConvertFrom-Json
-if ($lock.schemaVersion -ne 1 -or $null -eq $lock.inputs -or $lock.inputs.Count -eq 0) {
-    throw 'A populated version 1 input lockfile is required for release evidence.'
-}
+$lock = Read-RuntimeInputLock -Path $LockFile
 
 $bundleVersion = $Version -replace '^v', ''
 if ([string]::IsNullOrWhiteSpace($bundleVersion)) {
