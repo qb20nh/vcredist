@@ -81,6 +81,12 @@ AssertThrows<InvalidOperationException>(
     "unexpected signer");
 
 AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { SignerSubject = "CN=\"Contoso, O=Microsoft Corporation, subsidiary\", O=Contoso Ltd" }),
+    "unexpected signer");
+
+InstallerPlan.Validate(input with { SignerSubject = "CN=\"Runtime, Pack\", O=Microsoft Corporation" });
+
+AssertThrows<InvalidOperationException>(
     () => InstallerPlan.Resolve(
         new[]
         {

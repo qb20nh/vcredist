@@ -1,4 +1,6 @@
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Formats.Asn1;
 
 namespace RuntimeInstaller;
 
@@ -22,7 +24,7 @@ public sealed record InstallSelection(TargetArchitecture Architecture, IReadOnly
 
 public static class InstallerPlan
 {
-    private const string ApprovedMicrosoftOrganization = "O=Microsoft Corporation";
+    private const string ApprovedMicrosoftOrganization = "Microsoft Corporation";
 
     private static readonly HashSet<string> ValidFeatures = new(StringComparer.Ordinal)
     {
@@ -111,13 +113,80 @@ public static class InstallerPlan
         {
             throw new InvalidOperationException($"{input.Id} has an invalid SHA-256 digest.");
         }
-        if (!input.SignerSubject.Split(',').Select(attribute => attribute.Trim())
-            .Contains(ApprovedMicrosoftOrganization, StringComparer.OrdinalIgnoreCase))
+        if (!HasApprovedMicrosoftOrganization(input.SignerSubject))
         {
             throw new InvalidOperationException($"{input.Id} has an unexpected signer.");
         }
 
         return input;
+    }
+
+    /// <summary>Determines whether a distinguished name contains exactly the approved organization attribute.</summary>
+    private static bool HasApprovedMicrosoftOrganization(string subject)
+    {
+        try
+        {
+            var reader = new AsnReader(new X500DistinguishedName(subject).RawData, AsnEncodingRules.DER);
+            var name = reader.ReadSequence();
+            var organizationCount = 0;
+
+            while (name.HasData)
+            {
+                var relativeDistinguishedName = name.ReadSetOf();
+                while (relativeDistinguishedName.HasData)
+                {
+                    var attribute = relativeDistinguishedName.ReadSequence();
+                    var oid = attribute.ReadObjectIdentifier();
+                    if (oid == "2.5.4.10")
+                    {
+                        organizationCount++;
+                        if (!string.Equals(ReadDirectoryString(attribute), ApprovedMicrosoftOrganization, StringComparison.Ordinal))
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        attribute.ReadEncodedValue();
+                    }
+
+                    if (attribute.HasData)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return organizationCount == 1 && !reader.HasData;
+        }
+        catch (AsnContentException)
+        {
+            return false;
+        }
+        catch (CryptographicException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>Reads a supported ASN.1 DirectoryString value from an attribute.</summary>
+    private static string? ReadDirectoryString(AsnReader reader)
+    {
+        if (!reader.HasData)
+        {
+            return null;
+        }
+
+        return reader.PeekTag().TagValue switch
+        {
+            (int)UniversalTagNumber.UTF8String => reader.ReadCharacterString(UniversalTagNumber.UTF8String),
+            (int)UniversalTagNumber.PrintableString => reader.ReadCharacterString(UniversalTagNumber.PrintableString),
+            (int)UniversalTagNumber.TeletexString => reader.ReadCharacterString(UniversalTagNumber.TeletexString),
+            (int)UniversalTagNumber.IA5String => reader.ReadCharacterString(UniversalTagNumber.IA5String),
+            (int)UniversalTagNumber.VisibleString => reader.ReadCharacterString(UniversalTagNumber.VisibleString),
+            (int)UniversalTagNumber.BMPString => reader.ReadCharacterString(UniversalTagNumber.BMPString),
+            _ => null,
+        };
     }
 
     public static string Fingerprint(IEnumerable<RuntimeInput> inputs)
