@@ -37,9 +37,13 @@
     <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E06}</BundleId>
     <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E106}</BundleUpgradeCode>
   </PropertyGroup>
+  <PropertyGroup>
+    <DirectXAvailable Condition="'$(TargetArchitecture)' == 'arm64'">0</DirectXAvailable>
+    <DirectXAvailable Condition="'$(TargetArchitecture)' != 'arm64'">1</DirectXAvailable>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <DefineConstants>BundleVersion=$(BundleVersion);BundleMode=$(BundleMode);TargetArchitecture=$(TargetArchitecture);RuntimeInputsDirectory=$(RuntimeInputsDirectory);BundleUpgradeCode=$(BundleUpgradeCode)</DefineConstants>
+    <DefineConstants>BundleVersion=$(BundleVersion);BundleMode=$(BundleMode);TargetArchitecture=$(TargetArchitecture);RuntimeInputsDirectory=$(RuntimeInputsDirectory);BundleUpgradeCode=$(BundleUpgradeCode);DirectXAvailable=$(DirectXAvailable)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

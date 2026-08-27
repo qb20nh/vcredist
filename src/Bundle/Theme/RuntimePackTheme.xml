@@ -36,7 +36,7 @@
       <Checkbox Name="Feature_DotNetAspNet" X="16" Y="204" Width="-16" Height="18" TabStop="yes" FontId="3">ASP.NET Core Runtime (all supported cycles)</Checkbox>
       <Checkbox Name="Feature_DotNetFramework" X="16" Y="227" Width="-16" Height="18" TabStop="yes" FontId="3">Newest compatible .NET Framework 4.x</Checkbox>
       <Checkbox Name="Feature_DotNetFramework35" X="16" Y="250" Width="-16" Height="18" TabStop="yes" FontId="3">.NET Framework 3.5</Checkbox>
-      <Checkbox Name="Feature_DirectXLegacy" X="16" Y="273" Width="-16" Height="18" TabStop="yes" FontId="3">DirectX June 2010 legacy side-by-side runtime (not ARM64)</Checkbox>
+      <Checkbox Name="Feature_DirectXLegacy" X="16" Y="273" Width="-16" Height="18" TabStop="yes" FontId="3" EnableCondition="Feature_DirectXAvailable" HideWhenDisabled="yes">DirectX June 2010 legacy side-by-side runtime</Checkbox>
       <Label X="16" Y="304" Width="-16" Height="34" FontId="3" DisablePrefix="yes">No SDKs are included. DirectX is optional because it is only needed by older applications that use D3DX/XAudio/XInput legacy libraries.</Label>
       <Button Name="OptionsOkButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;OK</Text><ChangePageAction Page="Install" /></Button>
       <Button Name="OptionsCancelButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Cancel</Text><ChangePageAction Page="Install" Cancel="yes" /></Button>
