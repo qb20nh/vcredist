@@ -9,10 +9,16 @@ $script:ApprovedSourceHosts = @(
     'builds.dotnet.microsoft.com'
 )
 
+function Test-LockProperty {
+    param([object]$Object, [string]$Name, [string]$Context)
+
+    return @($Object.PSObject.Properties | Where-Object { $_.Name -ceq $Name }).Count -eq 1
+}
+
 function Assert-LockProperty {
     param([object]$Object, [string]$Name, [string]$Context)
 
-    if ($null -eq $Object.PSObject.Properties[$Name]) {
+    if (-not (Test-LockProperty -Object $Object -Name $Name -Context $Context)) {
         throw "$Context is missing required property '$Name'."
     }
 }
@@ -45,13 +51,13 @@ function Read-RuntimeInputLock {
         Assert-LockProperty $lock $name "Lockfile '$Path'"
     }
     $rootNames = @($lock.PSObject.Properties.Name)
-    if (@($rootNames | Where-Object { $_ -notin @('schemaVersion', 'supportedDotnetCycles', 'inputs') }).Count) {
+    if (@($rootNames | Where-Object { $_ -cnotin @('schemaVersion', 'supportedDotnetCycles', 'inputs') }).Count) {
         throw "Lockfile '$Path' contains unsupported properties."
     }
     if (-not (Test-JsonInteger $lock.schemaVersion) -or $lock.schemaVersion -ne 1) { throw "'$Path' is not a version 1 lockfile." }
     if ($lock.supportedDotnetCycles -isnot [array]) { throw "'$Path' has invalid supportedDotnetCycles." }
     $cycles = @($lock.supportedDotnetCycles)
-    if (@($cycles | Where-Object { $_ -isnot [string] -or $_ -notin @('8', '9', '10') }).Count -or
+    if (@($cycles | Where-Object { $_ -isnot [string] -or $_ -cnotin @('8', '9', '10') }).Count -or
         @($cycles | Sort-Object -Unique).Count -ne $cycles.Count) { throw "'$Path' has invalid supportedDotnetCycles." }
     if ($lock.inputs -isnot [array]) { throw "'$Path' has an invalid inputs collection." }
     $inputs = @($lock.inputs)
@@ -63,10 +69,10 @@ function Read-RuntimeInputLock {
     foreach ($input in $inputs) {
         $context = "Runtime input '$($input.id)'"
         foreach ($name in $required) { Assert-LockProperty $input $name $context }
-        if (@($input.PSObject.Properties.Name | Where-Object { $_ -notin $allowed }).Count) { throw "$context contains unsupported properties." }
-        if ($input.id -isnot [string] -or $input.id -cnotmatch '^[a-z0-9][a-z0-9-]*$' -or $input.id -like 'example-*') { throw "$context has an invalid id." }
-        if ($input.feature -isnot [string] -or $input.feature -notin $features) { throw "$context has an invalid feature." }
-        if ($input.architecture -isnot [string] -or $input.architecture -notin @('x86', 'x64', 'arm64')) { throw "$context has an invalid architecture." }
+        if (@($input.PSObject.Properties.Name | Where-Object { $_ -cnotin $allowed }).Count) { throw "$context contains unsupported properties." }
+        if ($input.id -isnot [string] -or $input.id -cnotmatch '^[a-z0-9][a-z0-9-]*$' -or $input.id -clike 'example-*') { throw "$context has an invalid id." }
+        if ($input.feature -isnot [string] -or $input.feature -cnotin $features) { throw "$context has an invalid feature." }
+        if ($input.architecture -isnot [string] -or $input.architecture -cnotin @('x86', 'x64', 'arm64')) { throw "$context has an invalid architecture." }
         if ($input.fileName -isnot [string] -or $input.fileName -cnotmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') { throw "$context has an unsafe fileName." }
         if ($input.sourceUrl -isnot [string]) { throw "$context has an invalid sourceUrl." }
         if ($input.licenseUrl -isnot [string]) { throw "$context has an invalid licenseUrl." }
@@ -79,12 +85,12 @@ function Read-RuntimeInputLock {
         if ($input.signerSubjectContains -isnot [string] -or $input.signerSubjectContains -cne $script:ApprovedSignerSubject) { throw "$context has an unapproved signerSubjectContains value." }
         if ($input.installArguments -isnot [string]) { throw "$context has invalid installArguments." }
         if ($input.detectCondition -isnot [string] -or [string]::IsNullOrEmpty($input.detectCondition)) { throw "$context has an invalid detectCondition." }
-        if ($input.feature -in @('dotnet-desktop', 'dotnet-aspnet')) {
+        if ($input.feature -cin @('dotnet-desktop', 'dotnet-aspnet')) {
             Assert-LockProperty $input 'cycle' $context
         }
-        if ($null -ne $input.PSObject.Properties['cycle'] -and ($input.cycle -isnot [string] -or $input.cycle -notin @('8', '9', '10'))) { throw "$context has an invalid cycle." }
-        if ($input.feature -eq 'dotnet-framework') { Assert-LockProperty $input 'inPlaceRank' $context }
-        if ($null -ne $input.PSObject.Properties['inPlaceRank'] -and (-not (Test-JsonInteger $input.inPlaceRank) -or $input.inPlaceRank -lt 1)) { throw "$context has an invalid inPlaceRank." }
+        if ((Test-LockProperty $input 'cycle' $context) -and ($input.cycle -isnot [string] -or $input.cycle -cnotin @('8', '9', '10'))) { throw "$context has an invalid cycle." }
+        if ($input.feature -ceq 'dotnet-framework') { Assert-LockProperty $input 'inPlaceRank' $context }
+        if ((Test-LockProperty $input 'inPlaceRank' $context) -and (-not (Test-JsonInteger $input.inPlaceRank) -or $input.inPlaceRank -lt 1)) { throw "$context has an invalid inPlaceRank." }
     }
     return $lock
 }
