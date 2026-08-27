@@ -69,31 +69,31 @@ function Read-RuntimeInputLock {
     $required = @('id', 'feature', 'architecture', 'fileName', 'sourceUrl', 'sha256', 'sha512', 'size', 'version', 'signerSubjectContains', 'installArguments', 'detectCondition', 'licenseUrl')
     $allowed = $required + @('cycle', 'inPlaceRank')
     $features = @('vc-redist-v14', 'dotnet-desktop', 'dotnet-aspnet', 'dotnet-framework', 'dotnet-framework-35', 'directx-legacy')
-    foreach ($input in $inputs) {
-        $context = "Runtime input '$($input.id)'"
-        foreach ($name in $required) { Assert-LockProperty $input $name $context }
-        if (@($input.PSObject.Properties.Name | Where-Object { $_ -cnotin $allowed }).Count) { throw "$context contains unsupported properties." }
-        if ($input.id -isnot [string] -or $input.id -cnotmatch '^[a-z0-9][a-z0-9-]*$' -or $input.id -clike 'example-*') { throw "$context has an invalid id." }
-        if ($input.feature -isnot [string] -or $input.feature -cnotin $features) { throw "$context has an invalid feature." }
-        if ($input.architecture -isnot [string] -or $input.architecture -cnotin @('x86', 'x64', 'arm64')) { throw "$context has an invalid architecture." }
-        if ($input.fileName -isnot [string] -or $input.fileName -cnotmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') { throw "$context has an unsafe fileName." }
-        if ($input.sourceUrl -isnot [string]) { throw "$context has an invalid sourceUrl." }
-        if ($input.licenseUrl -isnot [string]) { throw "$context has an invalid licenseUrl." }
-        Assert-HttpsUri $input.sourceUrl 'sourceUrl' $context -RequireApprovedHost
-        Assert-HttpsUri $input.licenseUrl 'licenseUrl' $context
-        if ($input.sha256 -isnot [string] -or $input.sha256 -cnotmatch '^[A-Fa-f0-9]{64}$') { throw "$context has an invalid SHA-256 hash." }
-        if ($input.sha512 -isnot [string] -or $input.sha512 -cnotmatch '^[A-Fa-f0-9]{128}$') { throw "$context has an invalid SHA-512 hash." }
-        if (-not (Test-JsonInteger $input.size) -or $input.size -lt 1) { throw "$context has an invalid size." }
-        if ($input.version -isnot [string] -or $input.version -cnotmatch '^[0-9]+(\.[0-9]+){1,3}$') { throw "$context has an invalid version." }
-        if ($input.signerSubjectContains -isnot [string] -or $input.signerSubjectContains -cne $script:ApprovedSignerSubject) { throw "$context has an unapproved signerSubjectContains value." }
-        if ($input.installArguments -isnot [string]) { throw "$context has invalid installArguments." }
-        if ($input.detectCondition -isnot [string] -or [string]::IsNullOrEmpty($input.detectCondition)) { throw "$context has an invalid detectCondition." }
-        if ($input.feature -cin @('dotnet-desktop', 'dotnet-aspnet')) {
-            Assert-LockProperty $input 'cycle' $context
+    foreach ($runtimeInput in $inputs) {
+        $context = "Runtime input '$($runtimeInput.id)'"
+        foreach ($name in $required) { Assert-LockProperty $runtimeInput $name $context }
+        if (@($runtimeInput.PSObject.Properties.Name | Where-Object { $_ -cnotin $allowed }).Count) { throw "$context contains unsupported properties." }
+        if ($runtimeInput.id -isnot [string] -or $runtimeInput.id -cnotmatch '^[a-z0-9][a-z0-9-]*$' -or $runtimeInput.id -clike 'example-*') { throw "$context has an invalid id." }
+        if ($runtimeInput.feature -isnot [string] -or $runtimeInput.feature -cnotin $features) { throw "$context has an invalid feature." }
+        if ($runtimeInput.architecture -isnot [string] -or $runtimeInput.architecture -cnotin @('x86', 'x64', 'arm64')) { throw "$context has an invalid architecture." }
+        if ($runtimeInput.fileName -isnot [string] -or $runtimeInput.fileName -cnotmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') { throw "$context has an unsafe fileName." }
+        if ($runtimeInput.sourceUrl -isnot [string]) { throw "$context has an invalid sourceUrl." }
+        if ($runtimeInput.licenseUrl -isnot [string]) { throw "$context has an invalid licenseUrl." }
+        Assert-HttpsUri $runtimeInput.sourceUrl 'sourceUrl' $context -RequireApprovedHost
+        Assert-HttpsUri $runtimeInput.licenseUrl 'licenseUrl' $context
+        if ($runtimeInput.sha256 -isnot [string] -or $runtimeInput.sha256 -cnotmatch '^[A-Fa-f0-9]{64}$') { throw "$context has an invalid SHA-256 hash." }
+        if ($runtimeInput.sha512 -isnot [string] -or $runtimeInput.sha512 -cnotmatch '^[A-Fa-f0-9]{128}$') { throw "$context has an invalid SHA-512 hash." }
+        if (-not (Test-JsonInteger $runtimeInput.size) -or $runtimeInput.size -lt 1) { throw "$context has an invalid size." }
+        if ($runtimeInput.version -isnot [string] -or $runtimeInput.version -cnotmatch '^[0-9]+(\.[0-9]+){1,3}$') { throw "$context has an invalid version." }
+        if ($runtimeInput.signerSubjectContains -isnot [string] -or $runtimeInput.signerSubjectContains -cne $script:ApprovedSignerSubject) { throw "$context has an unapproved signerSubjectContains value." }
+        if ($runtimeInput.installArguments -isnot [string]) { throw "$context has invalid installArguments." }
+        if ($runtimeInput.detectCondition -isnot [string] -or [string]::IsNullOrEmpty($runtimeInput.detectCondition)) { throw "$context has an invalid detectCondition." }
+        if ($runtimeInput.feature -cin @('dotnet-desktop', 'dotnet-aspnet')) {
+            Assert-LockProperty $runtimeInput 'cycle' $context
         }
-        if ((Test-LockProperty $input 'cycle' $context) -and ($input.cycle -isnot [string] -or $input.cycle -cnotin @('8', '9', '10'))) { throw "$context has an invalid cycle." }
-        if ($input.feature -ceq 'dotnet-framework') { Assert-LockProperty $input 'inPlaceRank' $context }
-        if ((Test-LockProperty $input 'inPlaceRank' $context) -and (-not (Test-JsonInteger $input.inPlaceRank) -or $input.inPlaceRank -lt 1)) { throw "$context has an invalid inPlaceRank." }
+        if ((Test-LockProperty $runtimeInput 'cycle' $context) -and ($runtimeInput.cycle -isnot [string] -or $runtimeInput.cycle -cnotin $cycles)) { throw "$context has an invalid cycle." }
+        if ($runtimeInput.feature -ceq 'dotnet-framework') { Assert-LockProperty $runtimeInput 'inPlaceRank' $context }
+        if ((Test-LockProperty $runtimeInput 'inPlaceRank' $context) -and (-not (Test-JsonInteger $runtimeInput.inPlaceRank) -or $runtimeInput.inPlaceRank -lt 1)) { throw "$context has an invalid inPlaceRank." }
     }
     return $lock
 }
