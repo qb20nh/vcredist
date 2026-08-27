@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Based on the WiX StdBA theme structure; runtime-choice controls bind to persisted Burn variables. -->
+<Theme xmlns="http://wixtoolset.org/schemas/v4/thmutil">
+  <Font Id="0" Height="-12" Weight="500" Foreground="windowtext" Background="window">Segoe UI</Font>
+  <Font Id="1" Height="-24" Weight="500" Foreground="windowtext">Segoe UI</Font>
+  <Font Id="2" Height="-20" Weight="500" Foreground="graytext">Segoe UI</Font>
+  <Font Id="3" Height="-12" Weight="500" Foreground="windowtext" Background="window">Segoe UI</Font>
+
+  <Window Width="540" Height="450" HexStyle="100a0000" FontId="0" Caption="[WixBundleName] Setup">
+    <Label X="16" Y="14" Width="-16" Height="52" FontId="1" DisablePrefix="yes">[WixBundleName]</Label>
+
+    <Page Name="Loading">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Checking installed runtimes...</Label>
+    </Page>
+
+    <Page Name="Help">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Setup Help</Label>
+      <Label X="16" Y="118" Width="-16" Height="-42" FontId="3" DisablePrefix="yes">Use /install, /repair, /uninstall, /layout [directory], /passive, /quiet, /norestart, and /log [path]. Feature variables may be supplied on the command line, for example Feature_DirectXLegacy=1.</Label>
+      <Button Name="HelpCloseButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Close</Text><CloseWindowAction /></Button>
+    </Page>
+
+    <Page Name="Install">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Verified Microsoft runtime installation</Label>
+      <Label X="16" Y="120" Width="-16" Height="55" FontId="3" DisablePrefix="yes">This bundle installs only selected, original Microsoft runtime installers. Open Options to choose components; each payload is checked against the release lockfile before execution.</Label>
+      <Hypertext Name="EulaHyperlink" X="16" Y="-110" Width="-16" Height="17" TabStop="yes" FontId="3">View the <a href="#">project license and verification instructions</a>.</Hypertext>
+      <Button Name="OptionsButton" X="-176" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Options</Text><ChangePageAction Page="Options" /></Button>
+      <Button Name="InstallButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0" ElevationShieldCondition="NOT WixBundleElevated"><Text>&amp;Install</Text></Button>
+      <Button Name="InstallCancelButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Cancel</Text><CloseWindowAction /></Button>
+    </Page>
+
+    <Page Name="Options">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Choose runtime components</Label>
+      <Label X="16" Y="116" Width="-16" Height="35" FontId="3" DisablePrefix="yes">Selections are remembered for repair. Deselecting a component prevents installation; it never removes an existing runtime.</Label>
+      <Checkbox Name="Feature_VcRedistV14" X="16" Y="158" Width="-16" Height="18" TabStop="yes" FontId="3">Microsoft Visual C++ v14 Redistributable</Checkbox>
+      <Checkbox Name="Feature_DotNetDesktop" X="16" Y="181" Width="-16" Height="18" TabStop="yes" FontId="3">.NET Desktop Runtime (all supported cycles)</Checkbox>
+      <Checkbox Name="Feature_DotNetAspNet" X="16" Y="204" Width="-16" Height="18" TabStop="yes" FontId="3">ASP.NET Core Runtime (all supported cycles)</Checkbox>
+      <Checkbox Name="Feature_DotNetFramework" X="16" Y="227" Width="-16" Height="18" TabStop="yes" FontId="3">Newest compatible .NET Framework 4.x</Checkbox>
+      <Checkbox Name="Feature_DotNetFramework35" X="16" Y="250" Width="-16" Height="18" TabStop="yes" FontId="3">.NET Framework 3.5</Checkbox>
+      <Checkbox Name="Feature_DirectXLegacy" X="16" Y="273" Width="-16" Height="18" TabStop="yes" FontId="3">DirectX June 2010 legacy side-by-side runtime (not ARM64)</Checkbox>
+      <Label X="16" Y="304" Width="-16" Height="34" FontId="3" DisablePrefix="yes">No SDKs are included. DirectX is optional because it is only needed by older applications that use D3DX/XAudio/XInput legacy libraries.</Label>
+      <Button Name="OptionsOkButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;OK</Text><ChangePageAction Page="Install" /></Button>
+      <Button Name="OptionsCancelButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Cancel</Text><ChangePageAction Page="Install" Cancel="yes" /></Button>
+    </Page>
+
+    <Page Name="Progress">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Installing verified runtime components</Label>
+      <Label Name="OverallProgressPackageText" X="16" Y="120" Width="-16" Height="18" FontId="3" DisablePrefix="yes">Initializing...</Label>
+      <Progressbar Name="OverallCalculatedProgressbar" X="16" Y="148" Width="-16" Height="16" />
+      <Button Name="ProgressCancelButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Cancel</Text></Button>
+    </Page>
+
+    <Page Name="Modify">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Modify Runtime Pack Verified</Label>
+      <Label X="16" Y="120" Width="-16" Height="48" FontId="3" DisablePrefix="yes">Repair revalidates and reapplies selected runtime installers. Removing this bundle never removes Microsoft runtimes that it installed.</Label>
+      <Button Name="RepairButton" X="-176" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Repair</Text></Button>
+      <Button Name="UninstallButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Remove</Text></Button>
+      <Button Name="ModifyCancelButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Close</Text><CloseWindowAction /></Button>
+    </Page>
+
+    <Page Name="Success">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Operation completed</Label>
+      <Label X="16" Y="120" Width="-16" Height="52" FontId="3" DisablePrefix="yes">The bundle completed. Keep the log and release checksums if you need to independently verify this installation.</Label>
+      <Label X="16" Y="186" Width="-16" Height="34" FontId="3" DisablePrefix="yes" VisibleCondition="WixStdBARestartRequired">A restart is required by one or more Microsoft runtime installers.</Label>
+      <Button Name="SuccessRestartButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes"><Text>&amp;Restart</Text></Button>
+      <Button Name="SuccessCloseButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Close</Text><CloseWindowAction /></Button>
+    </Page>
+
+    <Page Name="Failure">
+      <Label X="16" Y="82" Width="-16" Height="30" FontId="2" DisablePrefix="yes">Setup failed safely</Label>
+      <Hypertext Name="FailureLogFileLink" X="16" Y="122" Width="-16" Height="44" FontId="3" TabStop="yes">Open the <a href="#">installation log</a> for the exact failed check or installer result.</Hypertext>
+      <Hypertext Name="FailureMessageText" X="16" Y="174" Width="-16" Height="64" FontId="3" TabStop="yes" />
+      <Button Name="FailureRestartButton" X="-96" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes"><Text>&amp;Restart</Text></Button>
+      <Button Name="FailureCloseButton" X="-16" Y="-14" Width="75" Height="23" TabStop="yes" FontId="0"><Text>&amp;Close</Text><CloseWindowAction /></Button>
+    </Page>
+  </Window>
+</Theme>

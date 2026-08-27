@@ -1,0 +1,105 @@
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)]
+    [ValidateScript({ Test-Path -LiteralPath $_ -PathType Leaf })]
+    [string]$LockFile,
+
+    [Parameter(Mandatory)]
+    [string]$Destination,
+
+    [switch]$NoDownload
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+function Get-LockFile {
+    param([string]$Path)
+
+    $raw = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    if ($raw.schemaVersion -ne 1 -or $null -eq $raw.inputs -or $raw.inputs.Count -eq 0) {
+        throw "'$Path' is not a populated version 1 runtime input lockfile."
+    }
+
+    foreach ($input in $raw.inputs) {
+        if ($input.id -like 'example-*') {
+            throw "Example input '$($input.id)' cannot be used for a build."
+        }
+    }
+    return $raw
+}
+
+function Assert-VerifiedFile {
+    param(
+        [object]$Input,
+        [string]$Path
+    )
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        throw "Missing payload '$Path'."
+    }
+
+    $item = Get-Item -LiteralPath $Path
+    if ($item.Length -ne [int64]$Input.size) {
+        throw "Size mismatch for '$($Input.id)': expected $($Input.size), got $($item.Length)."
+    }
+
+    $sha256 = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($sha256 -ne $Input.sha256.ToLowerInvariant()) {
+        throw "SHA-256 mismatch for '$($Input.id)'."
+    }
+
+    $sha512 = (Get-FileHash -LiteralPath $Path -Algorithm SHA512).Hash.ToLowerInvariant()
+    if ($sha512 -ne $Input.sha512.ToLowerInvariant()) {
+        throw "SHA-512 mismatch for '$($Input.id)'."
+    }
+
+    $signature = Get-AuthenticodeSignature -LiteralPath $Path
+    if ($signature.Status -ne 'Valid' -or $null -eq $signature.SignerCertificate -or
+        $signature.SignerCertificate.Subject -notlike "*$($Input.signerSubjectContains)*") {
+        throw "Authenticode validation failed for '$($Input.id)': status '$($signature.Status)', subject '$($signature.SignerCertificate.Subject)'."
+    }
+}
+
+$approvedHosts = @(
+    'download.microsoft.com',
+    'download.windowsupdate.com',
+    'download.visualstudio.microsoft.com',
+    'dotnetcli.blob.core.windows.net',
+    'builds.dotnet.microsoft.com'
+)
+
+$lock = Get-LockFile -Path $LockFile
+$resolvedDestination = [IO.Path]::GetFullPath($Destination)
+New-Item -ItemType Directory -Force -Path $resolvedDestination | Out-Null
+
+foreach ($input in $lock.inputs | Sort-Object id) {
+    $uri = [Uri]$input.sourceUrl
+    if ($uri.Scheme -ne 'https' -or $approvedHosts -notcontains $uri.Host.ToLowerInvariant()) {
+        throw "Input '$($input.id)' does not use an approved canonical Microsoft HTTPS host."
+    }
+    if ($input.fileName -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') {
+        throw "Unsafe file name for '$($input.id)'."
+    }
+
+    $target = Join-Path $resolvedDestination $input.fileName
+    if (-not (Test-Path -LiteralPath $target -PathType Leaf)) {
+        if ($NoDownload) {
+            throw "'$($input.id)' is absent and -NoDownload was specified."
+        }
+
+        $temporary = "$target.partial"
+        Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue
+        try {
+            Invoke-WebRequest -Uri $uri -OutFile $temporary -MaximumRedirection 0
+            Assert-VerifiedFile -Input $input -Path $temporary
+            Move-Item -LiteralPath $temporary -Destination $target -Force
+        }
+        finally {
+            Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    Assert-VerifiedFile -Input $input -Path $target
+    Write-Host "Verified $($input.id)"
+}

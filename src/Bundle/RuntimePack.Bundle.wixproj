@@ -1,0 +1,58 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+  <PropertyGroup>
+    <BundleMode Condition="'$(BundleMode)' == ''">Bootstrap</BundleMode>
+    <OutputType>Bundle</OutputType>
+    <TargetArchitecture Condition="'$(TargetArchitecture)' == ''">x64</TargetArchitecture>
+    <InstallerPlatform>$(TargetArchitecture)</InstallerPlatform>
+    <BundleVersion Condition="'$(BundleVersion)' == ''">0.1.0</BundleVersion>
+    <RuntimeInputLockFile Condition="'$(RuntimeInputLockFile)' == ''">$(MSBuildThisFileDirectory)..\..\tests\fixtures\runtime-inputs.bootstrap-fixture.json</RuntimeInputLockFile>
+    <RuntimeInputsDirectory Condition="'$(RuntimeInputsDirectory)' == ''">$(MSBuildThisFileDirectory)..\..\inputs</RuntimeInputsDirectory>
+    <RuntimeInputLockFileFullPath>$([System.IO.Path]::GetFullPath('$(RuntimeInputLockFile)'))</RuntimeInputLockFileFullPath>
+    <GeneratedAuthoring>$(MSBuildProjectDirectory)\obj\$(Configuration)\generated\RuntimeInputs.wxs</GeneratedAuthoring>
+    <OutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetArchitecture)\$(BundleMode)\</OutputPath>
+    <OutputName>RuntimePack-$(BundleVersion)-$(TargetArchitecture)-$(BundleMode)</OutputName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'x86|Bootstrap'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E01}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E101}</BundleUpgradeCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'x64|Bootstrap'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E02}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E102}</BundleUpgradeCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'arm64|Bootstrap'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E03}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E103}</BundleUpgradeCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'x86|Standalone'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E04}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E104}</BundleUpgradeCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'x64|Standalone'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E05}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E105}</BundleUpgradeCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetArchitecture)|$(BundleMode)' == 'arm64|Standalone'">
+    <BundleId>{1015BDAA-5648-4A02-A070-D0EAE53E6E06}</BundleId>
+    <BundleUpgradeCode>{25130E68-6B9A-44A1-B5C5-F1EAF3D4E106}</BundleUpgradeCode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>BundleVersion=$(BundleVersion);BundleMode=$(BundleMode);TargetArchitecture=$(TargetArchitecture);RuntimeInputsDirectory=$(RuntimeInputsDirectory);BundleUpgradeCode=$(BundleUpgradeCode)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.BootstrapperApplications.wixext" Version="5.0.2" />
+  </ItemGroup>
+
+  <Target Name="GenerateRuntimeInputAuthoring" BeforeTargets="CoreCompile">
+    <Error Condition="'$(BundleId)' == '' Or '$(BundleUpgradeCode)' == ''" Text="BundleMode must be Bootstrap or Standalone and TargetArchitecture must be x86, x64, or arm64." />
+    <MakeDir Directories="$(IntermediateOutputPath)generated" />
+    <!-- Bypass applies only to this checked-out, version-controlled code-generation script. -->
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\..\tools\New-BurnAuthoring.ps1&quot; -Mode $(BundleMode) -Architecture $(TargetArchitecture) -LockFile &quot;$(RuntimeInputLockFileFullPath)&quot; -OutputFile &quot;$(GeneratedAuthoring)&quot;" />
+    <ItemGroup>
+      <Compile Include="$(GeneratedAuthoring)" />
+    </ItemGroup>
+  </Target>
+</Project>
