@@ -79,8 +79,13 @@ static void AssertThrows<TException>(Action action, string? expectedMessageFragm
     {
         action();
     }
-    catch (TException exception)
+    catch (Exception exception)
     {
+        if (exception.GetType() != typeof(TException))
+        {
+            throw new Exception($"Expected exactly {typeof(TException).Name}, but got {exception.GetType().Name}.");
+        }
+
         if (expectedMessageFragment is not null &&
             !exception.Message.Contains(expectedMessageFragment, StringComparison.Ordinal))
         {
