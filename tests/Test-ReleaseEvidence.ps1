@@ -52,6 +52,7 @@ try {
             }
         }
     )
+    $validNames[0] = $validNames[0] -ireplace '\.exe$', '.EXE'
     $validDirectory = New-ArtifactSet -Names $validNames
     $validOutput = Join-Path $validDirectory 'evidence'
     & $evidenceScript -LockFile $lockFile -ArtifactDirectory $validDirectory -OutputDirectory $validOutput -Version "v$version"
