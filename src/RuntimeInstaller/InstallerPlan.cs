@@ -22,6 +22,8 @@ public sealed record InstallSelection(TargetArchitecture Architecture, IReadOnly
 
 public static class InstallerPlan
 {
+    private const string ApprovedMicrosoftOrganization = "O=Microsoft Corporation";
+
     private static readonly HashSet<string> ValidFeatures = new(StringComparer.Ordinal)
     {
         "vc-redist-v14",
@@ -109,7 +111,8 @@ public static class InstallerPlan
         {
             throw new InvalidOperationException($"{input.Id} has an invalid SHA-256 digest.");
         }
-        if (!input.SignerSubject.Contains("Microsoft Corporation", StringComparison.Ordinal))
+        if (!input.SignerSubject.Split(',').Select(attribute => attribute.Trim())
+            .Contains(ApprovedMicrosoftOrganization, StringComparer.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException($"{input.Id} has an unexpected signer.");
         }

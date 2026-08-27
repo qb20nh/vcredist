@@ -3,7 +3,7 @@ Set-StrictMode -Version Latest
 
 . (Join-Path $PSScriptRoot '..\tools\RuntimeInputLock.ps1')
 
-function Assert-LockRejectsCasingVariant {
+function Assert-LockRejectsMutation {
     param([string]$Description, [scriptblock]$Mutate)
 
     $manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'fixtures\runtime-inputs.bootstrap-fixture.json') -Raw | ConvertFrom-Json
@@ -22,25 +22,33 @@ function Assert-LockRejectsCasingVariant {
     finally { Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue }
 }
 
-Assert-LockRejectsCasingVariant -Description 'A case-variant required root property' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant required root property' -Mutate {
     param($manifest)
     $value = $manifest.PSObject.Properties['schemaVersion'].Value
     $manifest.PSObject.Properties.Remove('schemaVersion')
     $manifest | Add-Member -NotePropertyName 'SchemaVersion' -NotePropertyValue $value
 }
-Assert-LockRejectsCasingVariant -Description 'A case-variant required input property' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant required input property' -Mutate {
     param($manifest)
     $value = $manifest.inputs[0].PSObject.Properties['fileName'].Value
     $manifest.inputs[0].PSObject.Properties.Remove('fileName')
     $manifest.inputs[0] | Add-Member -NotePropertyName 'FileName' -NotePropertyValue $value
 }
-Assert-LockRejectsCasingVariant -Description 'A case-variant feature enum value' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant feature enum value' -Mutate {
     param($manifest)
     $manifest.inputs[0].feature = 'VC-REDIST-V14'
 }
-Assert-LockRejectsCasingVariant -Description 'A case-variant architecture enum value' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant architecture enum value' -Mutate {
     param($manifest)
     $manifest.inputs[0].architecture = 'X64'
+}
+Assert-LockRejectsMutation -Description 'A credential-bearing source URL' -Mutate {
+    param($manifest)
+    $manifest.inputs[0].sourceUrl = 'https://user:pass@download.microsoft.com/fixture.exe'
+}
+Assert-LockRejectsMutation -Description 'A credential-bearing license URL' -Mutate {
+    param($manifest)
+    $manifest.inputs[0].licenseUrl = 'https://user:pass@www.microsoft.com/licensing/'
 }
 
 $approved = 'Microsoft Corporation'

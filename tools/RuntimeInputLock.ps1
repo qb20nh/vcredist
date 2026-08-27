@@ -30,6 +30,9 @@ function Assert-HttpsUri {
     if (-not [Uri]::TryCreate($Value, [UriKind]::Absolute, [ref]$uri) -or $uri.Scheme -cne 'https') {
         throw "$Context has an invalid '$Field'; an absolute HTTPS URL is required."
     }
+    if (-not [string]::IsNullOrEmpty($uri.UserInfo)) {
+        throw "$Context has an invalid '$Field'; embedded URL credentials are not allowed."
+    }
     if ($RequireApprovedHost -and $script:ApprovedSourceHosts -notcontains $uri.IdnHost.ToLowerInvariant()) {
         throw "$Context has an unapproved '$Field' host."
     }

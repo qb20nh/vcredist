@@ -3,12 +3,12 @@ using RuntimeInstaller;
 var input = new RuntimeInput(
     "desktop-x64", "dotnet-desktop", TargetArchitecture.X64,
     "https://dotnetcli.blob.core.windows.net/dotnet/Runtime/example.exe",
-    new string('a', 64), "CN=Microsoft Corporation");
+    new string('a', 64), "CN=Microsoft Corporation, O=Microsoft Corporation");
 
 var frameworkOld = new RuntimeInput(
     "framework-48", "dotnet-framework", TargetArchitecture.X64,
     "https://download.microsoft.com/example.exe", new string('b', 64),
-    "CN=Microsoft Corporation", 48);
+    "CN=Microsoft Corporation, O=Microsoft Corporation", 48);
 var frameworkNew = frameworkOld with { Id = "framework-481", Sha256 = new string('c', 64), InPlaceRank = 481 };
 
 var plan = InstallerPlan.Resolve(
@@ -74,6 +74,10 @@ AssertThrows<InvalidOperationException>(
 
 AssertThrows<InvalidOperationException>(
     () => InstallerPlan.Validate(input with { SignerSubject = "CN=Contoso Software" }),
+    "unexpected signer");
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { SignerSubject = "CN=Microsoft Corporation Test, O=Contoso Ltd" }),
     "unexpected signer");
 
 AssertThrows<InvalidOperationException>(
