@@ -26,6 +26,7 @@
     <Variable Name="Feature_DotNetFramework" Type="numeric" Value="1" Persisted="yes" bal:Overridable="yes" />
     <Variable Name="Feature_DotNetFramework35" Type="numeric" Value="0" Persisted="yes" bal:Overridable="yes" />
     <Variable Name="Feature_DirectXLegacy" Type="numeric" Value="0" Persisted="yes" bal:Overridable="yes" />
+    <Variable Name="Feature_DirectXAvailable" Type="numeric" Value="$(var.DirectXAvailable)" />
 
     <Chain>
       <PackageGroupRef Id="RuntimeInputs" />
