@@ -1,6 +1,7 @@
 # Reproducible builds must start from verified inputs, never from an accidental local cache.
 **/bin/
 **/obj/
+**/build/
 artifacts/
 inputs/
 *.wixpdb

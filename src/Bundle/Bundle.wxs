@@ -29,6 +29,19 @@
     <Variable Name="Feature_DirectXAvailable" Type="numeric" Value="$(var.DirectXAvailable)" />
 
     <Chain>
+      <ExePackage Id="NetFx35Enabler"
+                  SourceFile="$(var.NetFx35HelperPath)"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes"
+                  InstallArguments="--enable"
+                  RepairArguments="--enable"
+                  DetectCondition="0"
+                  InstallCondition="Feature_DotNetFramework35"
+                  LogPathVariable="NetFx35EnablerLog">
+        <ExitCode Value="3010" Behavior="scheduleReboot" />
+        <ExitCode Value="1641" Behavior="forceReboot" />
+      </ExePackage>
       <PackageGroupRef Id="RuntimeInputs" />
     </Chain>
   </Bundle>

@@ -13,7 +13,7 @@ Build a fully auditable, open-source WiX Burn release system for `qb20nh/vcredis
 ## Interview Summary
 
 - Desired outcome: Public source and two verifiable WiX Burn release variants: bootstrap (download-and-verify) and standalone (offline inputs embedded).
-- Components: VC++ v14; .NET Desktop and ASP.NET Core runtimes for supported cycles; newest compatible .NET Framework 4.x; separate .NET Framework 3.5; legacy DirectX June 2010 side-by-side runtime.
+- Components: VC++ v14; .NET Desktop and ASP.NET Core runtimes for supported cycles; newest compatible .NET Framework 4.x; automatically enabled .NET Framework 3.5 through Windows servicing; legacy DirectX June 2010 side-by-side runtime.
 - Architectures: x86, x64, and ARM64. ARM32 is excluded because no matching currently supported Microsoft modern-.NET/VC++ input set was established.
 - Evidence: Tests validate manifests, selection and architecture rules, deterministic packaging, SBOM, GitHub attestation, and immutable release status. Release assets are independently verified with GitHub CLI.
 - Constraints: No modified Microsoft installers, unreviewed mirrors, silent uninstall/hiding/registry override, or hash/signature bypass.
@@ -28,6 +28,7 @@ Build a fully auditable, open-source WiX Burn release system for `qb20nh/vcredis
 - Standalone releases may contain unmodified proprietary Microsoft redistributable inputs, but project code, build instructions, manifests, and provenance are fully open and auditable.
 - The latest supported .NET Framework 4.x is selected by OS compatibility rather than attempting to install mutually exclusive 4.x versions together.
 - DirectX means the Microsoft DirectX End-User Runtimes (June 2010) package for legacy side-by-side libraries, not replacement of the OS DirectX runtime.
+- NetFx3 uses a native open-source helper to invoke the target system's DISM capability path with fixed arguments. It uses only local, enterprise-configured, or Windows Update sources and fails closed when Windows cannot obtain matching files.
 
 ## Non-goals
 
