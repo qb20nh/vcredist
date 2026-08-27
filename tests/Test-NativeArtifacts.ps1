@@ -97,4 +97,16 @@ foreach ($architecture in $machines.Keys) {
 $selfTest = Join-Path $HelperRoot 'x64\RuntimePack.NetFx35Enabler.exe'
 $selfTestProcess = Start-Process -FilePath $selfTest -ArgumentList '--self-test' -Wait -PassThru
 if ($selfTestProcess.ExitCode -ne 0) { throw "NetFx3 helper self-test failed with exit code $($selfTestProcess.ExitCode)." }
+
+$invalidInvocations = @(
+    @{ Name = 'self-test suffix'; Arguments = @('--self-test-extra') },
+    @{ Name = 'misspelled enable option'; Arguments = @('--enabel') },
+    @{ Name = 'additional argument'; Arguments = @('--enable', '--unexpected') }
+)
+foreach ($invocation in $invalidInvocations) {
+    $process = Start-Process -FilePath $selfTest -ArgumentList $invocation.Arguments -Wait -PassThru
+    if ($process.ExitCode -ne 87) {
+        throw "NetFx3 helper returned $($process.ExitCode) for the $($invocation.Name) invocation; expected ERROR_INVALID_PARAMETER (87) without enabling NetFx3."
+    }
+}
 Write-Host 'Native helper and WiX bundle architecture checks passed.'
