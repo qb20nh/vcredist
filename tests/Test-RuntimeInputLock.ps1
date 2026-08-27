@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 . (Join-Path $PSScriptRoot '..\tools\RuntimeInputLock.ps1')
 
 function Assert-LockRejectsMutation {
-    param([string]$Description, [scriptblock]$Mutate)
+    param([string]$Description, [scriptblock]$Mutate, [Parameter(Mandatory)][string]$ExpectedPattern)
 
     $manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'fixtures\runtime-inputs.bootstrap-fixture.json') -Raw | ConvertFrom-Json
     & $Mutate $manifest
@@ -17,38 +17,46 @@ function Assert-LockRejectsMutation {
         }
         catch {
             if ($_.Exception.Message -eq "$Description was accepted.") { throw }
+            if ($_.Exception.Message -notmatch $ExpectedPattern) {
+                throw "$Description failed for an unexpected reason: $($_.Exception.Message)"
+            }
         }
     }
     finally { Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue }
 }
 
-Assert-LockRejectsMutation -Description 'A case-variant required root property' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant required root property' -ExpectedPattern "missing required property 'schemaVersion'" -Mutate {
     param($manifest)
     $value = $manifest.PSObject.Properties['schemaVersion'].Value
     $manifest.PSObject.Properties.Remove('schemaVersion')
     $manifest | Add-Member -NotePropertyName 'SchemaVersion' -NotePropertyValue $value
 }
-Assert-LockRejectsMutation -Description 'A case-variant required input property' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant required input property' -ExpectedPattern "missing required property 'fileName'" -Mutate {
     param($manifest)
     $value = $manifest.inputs[0].PSObject.Properties['fileName'].Value
     $manifest.inputs[0].PSObject.Properties.Remove('fileName')
     $manifest.inputs[0] | Add-Member -NotePropertyName 'FileName' -NotePropertyValue $value
 }
-Assert-LockRejectsMutation -Description 'A case-variant feature enum value' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant feature enum value' -ExpectedPattern 'invalid feature' -Mutate {
     param($manifest)
     $manifest.inputs[0].feature = 'VC-REDIST-V14'
 }
-Assert-LockRejectsMutation -Description 'A case-variant architecture enum value' -Mutate {
+Assert-LockRejectsMutation -Description 'A case-variant architecture enum value' -ExpectedPattern 'invalid architecture' -Mutate {
     param($manifest)
     $manifest.inputs[0].architecture = 'X64'
 }
-Assert-LockRejectsMutation -Description 'A credential-bearing source URL' -Mutate {
+Assert-LockRejectsMutation -Description 'A credential-bearing source URL' -ExpectedPattern 'embedded URL credentials' -Mutate {
     param($manifest)
     $manifest.inputs[0].sourceUrl = 'https://user:pass@download.microsoft.com/fixture.exe'
 }
-Assert-LockRejectsMutation -Description 'A credential-bearing license URL' -Mutate {
+Assert-LockRejectsMutation -Description 'A credential-bearing license URL' -ExpectedPattern 'embedded URL credentials' -Mutate {
     param($manifest)
     $manifest.inputs[0].licenseUrl = 'https://user:pass@www.microsoft.com/licensing/'
+}
+Assert-LockRejectsMutation -Description 'An input cycle absent from supportedDotnetCycles' -ExpectedPattern 'invalid cycle' -Mutate {
+    param($manifest)
+    $manifest.supportedDotnetCycles = @('8')
+    $manifest.inputs[0] | Add-Member -NotePropertyName 'cycle' -NotePropertyValue '9'
 }
 
 $approved = 'Microsoft Corporation'
