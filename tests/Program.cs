@@ -30,6 +30,22 @@ AssertThrows<InvalidOperationException>(
     () => InstallerPlan.Validate(input with { Url = "https://example.invalid/runtime.exe" }),
     "approved Microsoft host");
 
+foreach (var host in new[]
+{
+    "download.microsoft.com",
+    "download.windowsupdate.com",
+    "download.visualstudio.microsoft.com",
+    "dotnetcli.blob.core.windows.net",
+    "builds.dotnet.microsoft.com",
+})
+{
+    InstallerPlan.Validate(input with { Url = $"https://{host}/runtime.exe" });
+}
+
+AssertThrows<InvalidOperationException>(
+    () => InstallerPlan.Validate(input with { Url = "https://aka.ms/runtime.exe" }),
+    "approved Microsoft host");
+
 AssertThrows<InvalidOperationException>(
     () => InstallerPlan.Resolve(
         new[] { input },

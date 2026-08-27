@@ -39,9 +39,13 @@ try {
     New-Item -ItemType Directory -Path $root | Out-Null
     @{
         schemaVersion = 1
+        supportedDotnetCycles = @('8')
         inputs = @(@{
-            id = 'fixture'; version = '1.0'; sourceUrl = 'https://example.invalid/input.exe'
-            sha256 = ('a' * 64)
+            id = 'fixture'; feature = 'vc-redist-v14'; architecture = 'x64'
+            fileName = 'fixture.exe'; sourceUrl = 'https://download.microsoft.com/fixture.exe'
+            sha256 = ('a' * 64); sha512 = ('b' * 128); size = 1; version = '1.0.0.0'
+            signerSubjectContains = 'Microsoft Corporation'; installArguments = '/quiet'
+            detectCondition = '0'; licenseUrl = 'https://www.microsoft.com/licensing/'
         })
     } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $lockFile
 
