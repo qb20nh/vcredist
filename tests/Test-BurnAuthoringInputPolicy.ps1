@@ -12,6 +12,7 @@ function Write-MinimalLockFile {
 
     @{
         schemaVersion = 1
+        supportedDotnetCycles = @('8')
         inputs = @(@{
             id = 'policy-test-x64'; feature = 'vc-redist-v14'; architecture = 'x64'
             fileName = 'policy-test.exe'; sourceUrl = $SourceUrl

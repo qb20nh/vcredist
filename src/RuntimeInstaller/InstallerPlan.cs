@@ -32,6 +32,15 @@ public static class InstallerPlan
         "directx-legacy",
     };
 
+    private static readonly HashSet<string> ApprovedSourceHosts = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "download.microsoft.com",
+        "download.windowsupdate.com",
+        "download.visualstudio.microsoft.com",
+        "dotnetcli.blob.core.windows.net",
+        "builds.dotnet.microsoft.com",
+    };
+
     public static IReadOnlyList<RuntimeInput> Resolve(
         IEnumerable<RuntimeInput> available,
         InstallSelection selection)
@@ -91,11 +100,7 @@ public static class InstallerPlan
             throw new InvalidOperationException($"{input.Id} does not use HTTPS.");
         }
 
-        var allowedHosts = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "aka.ms", "download.microsoft.com", "download.windowsupdate.com", "dotnetcli.blob.core.windows.net"
-        };
-        if (!allowedHosts.Contains(uri.Host))
+        if (!ApprovedSourceHosts.Contains(uri.Host))
         {
             throw new InvalidOperationException($"{input.Id} does not use an approved Microsoft host.");
         }
