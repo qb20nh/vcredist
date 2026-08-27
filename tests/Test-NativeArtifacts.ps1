@@ -72,7 +72,12 @@ function Get-PeImportedDllNames {
 }
 
 $machines = @{ x86 = 0x014C; x64 = 0x8664; arm64 = 0xAA64 }
-$forbiddenDynamicRuntime = '^(api-ms-win-crt-|vcruntime\\d+|msvcp\\d+|concrt\\d+|ucrtbase\\.dll$)'
+$forbiddenDynamicRuntime = '^(api-ms-win-crt-|vcruntime\d+|msvcp\d+|concrt\d+|ucrtbase\.dll$)'
+$knownDynamicRuntimeImports = @('vcruntime140.dll', 'msvcp140.dll', 'concrt140.dll', 'ucrtbase.dll', 'api-ms-win-crt-runtime-l1-1-0.dll')
+$unmatchedKnownRuntimeImports = @($knownDynamicRuntimeImports | Where-Object { $_ -notmatch $forbiddenDynamicRuntime })
+if ($unmatchedKnownRuntimeImports.Count -ne 0) {
+    throw 'The MSVC runtime import guard does not match all known dynamic runtime DLL names.'
+}
 foreach ($architecture in $machines.Keys) {
     $helper = Join-Path $HelperRoot "$architecture\RuntimePack.NetFx35Enabler.exe"
     $bundle = Join-Path $BundleRoot "$architecture\Bootstrap\RuntimePack-$Version-$architecture-Bootstrap.exe"
