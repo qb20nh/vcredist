@@ -99,6 +99,7 @@ $selfTestProcess = Start-Process -FilePath $selfTest -ArgumentList '--self-test'
 if ($selfTestProcess.ExitCode -ne 0) { throw "NetFx3 helper self-test failed with exit code $($selfTestProcess.ExitCode)." }
 
 $invalidInvocations = @(
+    @{ Name = 'missing argument'; Arguments = @() },
     @{ Name = 'self-test suffix'; Arguments = @('--self-test-extra') },
     @{ Name = 'misspelled enable option'; Arguments = @('--enabel') },
     @{ Name = 'additional argument'; Arguments = @('--enable', '--unexpected') }
