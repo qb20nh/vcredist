@@ -39,7 +39,8 @@ function Build-NetFx35Enabler {
     param([ValidateSet('x86', 'x64', 'arm64')][string]$Architecture)
 
     $buildDirectory = Join-Path $helperSource "build\$Architecture"
-    $outputDirectory = Join-Path $root "artifacts\helper\$Architecture"
+    # Helpers are build intermediates embedded into bundles, never release assets.
+    $outputDirectory = Join-Path $root "intermediate\helper\$Architecture"
     $output = Join-Path $outputDirectory 'RuntimePack.NetFx35Enabler.exe'
     New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
 
