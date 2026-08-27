@@ -23,6 +23,9 @@ jobs:
       - name: Exercise release evidence filename validation
         shell: pwsh
         run: ./tests/Test-ReleaseEvidence.ps1
+      - name: Exercise Burn authoring input policy
+        shell: pwsh
+        run: ./tests/Test-BurnAuthoringInputPolicy.ps1
       - name: Compile all native bootstrap architectures with a non-installable fixture
         shell: pwsh
         run: >-
