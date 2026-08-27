@@ -40,7 +40,7 @@ $expectedBundles = @(
     }
 )
 $artifacts = @(Get-ChildItem -LiteralPath $ArtifactDirectory -File | Where-Object Extension -IEQ '.exe' | Sort-Object Name)
-$actualNames = @($artifacts | ForEach-Object Name)
+$actualNames = @($artifacts | ForEach-Object { $_.Name -ireplace '\.exe$', '.exe' })
 $expectedNames = @($expectedBundles | ForEach-Object name)
 $missing = @($expectedNames | Where-Object { $actualNames -cnotcontains $_ })
 $unexpected = @($actualNames | Where-Object { $expectedNames -cnotcontains $_ })
@@ -91,7 +91,8 @@ $metadata = [ordered]@{
     inputLockSha256 = (Get-FileHash -LiteralPath $LockFile -Algorithm SHA256).Hash.ToLowerInvariant()
     generatedAtUtc = [DateTime]::UtcNow.ToString('o')
     bundles = @($artifacts | ForEach-Object {
-        $bundle = $expectedBundles | Where-Object name -CEQ $_.Name
+        $canonicalName = $_.Name -ireplace '\.exe$', '.exe'
+        $bundle = $expectedBundles | Where-Object name -CEQ $canonicalName
         [ordered]@{
             name = $_.Name
             architecture = $bundle.architecture
