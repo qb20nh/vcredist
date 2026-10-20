@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 1,
+  "kind": "runtime-input-evidence",
+  "inventorySha256": "272918ccd1c5737eb02407bee84561a252553fcbb193f8974af62d6aea23ba2b",
+  "inventoryAsOf": "2026-10-20",
+  "collectedAt": "2026-10-20T12:28:37.6814494+00:00",
+  "sourceCommit": "b21d93a80914574d7d7f7fce10a7c43b3481d452",
+  "collectionStatus": "complete",
+  "releaseReady": false,
+  "verified": [
+    {
+      "id": "directx-june2010-redist",
+      "feature": "directx-legacy",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "candidateVersion": "9.29.1974.1",
+      "observedFileVersion": "9.00.8112.16421 (WIN7_IE9_RTM.110308-0330)",
+      "observedProductVersion": "9.00.8112.16421",
+      "fileName": "directx_Jun2010_redist.exe",
+      "sourceUrl": "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe",
+      "sha256": "053f76dcbb28802e23341b6a787e3b0791c0fa5c8d4d011b1044172dbf89c73b",
+      "sha512": "04c6347e6db6cff037a1292a88bf062c3e4042fb265a665afdbe7616aed7936f4955a35637a86c30332731762e0052b6f5c721f9fe7682d147e0965a7fb77a63",
+      "size": 100275120,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "2485A7AFA98E178CB8F30C9838346B514AEA4769",
+      "signerNotAfter": "2021-03-03T18:39:47.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-arm64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.36604",
+      "observedProductVersion": "10.0.13.36604",
+      "fileName": "aspnetcore-runtime-10.0.13-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-arm64.exe",
+      "sha256": "c943688e21302a28b8dbe317258698b69125456936b191b86b18d0b259aab1a2",
+      "sha512": "f8d09cbae4b24764e6abcc665cc677d80f9f68db199ece2bcda3de6a75029b9f22541492a85080f36d7190dcf6861be76c3fd4919d083db0b81094938389d2cf",
+      "size": 10770384,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-x64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.36604",
+      "observedProductVersion": "10.0.13.36604",
+      "fileName": "aspnetcore-runtime-10.0.13-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-x64.exe",
+      "sha256": "1c349d16bebabe5a77f1b7d116f87502518a35b6f1d9541829889ca468830ffc",
+      "sha512": "680bf274a7ecc1818d49e1845072aa3064102992fb00547965107938ff6808ea35f832c46f1b4e05231cae47e40e746419c024e5622f7a1254c0dcb946c5c07c",
+      "size": 11292832,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "43A50DB15AC95D0C1D187616AE187467975846D0",
+      "signerNotAfter": "2027-04-15T18:57:39.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-x86",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.36604",
+      "observedProductVersion": "10.0.13.36604",
+      "fileName": "aspnetcore-runtime-10.0.13-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-x86.exe",
+      "sha256": "61361b260e378765c5877bb8dc22eb8735e0d91ec562c85407b3e944b011d2f3",
+      "sha512": "2a7ce1e858f5ad3b17751a888f0d07ec0a2e899137fd4984bfcb8a6c3bc6d5ca33a1ec6e5a92e951dcba2d9408bf22e51cc8b3db1a2abdce8a2558f36ff823af",
+      "size": 10782000,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-arm64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.26505",
+      "observedProductVersion": "8.0.32.26505",
+      "fileName": "aspnetcore-runtime-8.0.32-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-arm64.exe",
+      "sha256": "e282128f4c23bb4d38aa2a67a5c16e915dd8d209f7e2e7ae377e99b4efbf35a9",
+      "sha512": "d5dfb8ac0c2668fc9033621bc80721af8d0108025cce5b2ab1efcb3e799e876b81ef11f948aacf5ae2527e7e92ccd97ce927ab7be92d6af0d70036d2e1316641",
+      "size": 10000152,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "signerNotAfter": "2027-04-15T18:59:41.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-x64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.26505",
+      "observedProductVersion": "8.0.32.26505",
+      "fileName": "aspnetcore-runtime-8.0.32-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-x64.exe",
+      "sha256": "72bd8f5598225c19280bee576ad2318090086ced5fd6c0cb9cf19408e9359ea6",
+      "sha512": "5de9fd3b3960024de7b1a9980eb50851fe06311b3bf3216cc420de42c668cc37eda9ababbf7dd18df153cc90ca37c5b40829f9a064e45faa354c30494e390485",
+      "size": 10490592,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "signerNotAfter": "2027-04-15T18:59:43.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-x86",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.26505",
+      "observedProductVersion": "8.0.32.26505",
+      "fileName": "aspnetcore-runtime-8.0.32-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-x86.exe",
+      "sha256": "2f70d5df0f018b133d04f56fa8dce3730e19efacb255c5e67e3fc8b000b75821",
+      "sha512": "bbdb70e30f9b224e4380fbdb6c171abbc905322858a2a48e8b9b74cfb2da38c034d05314164bde50616a648d124b925785e9664a84a5f34f8d90fbf5205f516f",
+      "size": 9700760,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "signerNotAfter": "2027-04-15T18:59:41.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-arm64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.26505",
+      "observedProductVersion": "9.0.21.26505",
+      "fileName": "aspnetcore-runtime-9.0.21-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-arm64.exe",
+      "sha256": "a92f3fd17fb21f1de91f8936b5627f8689675c0c7559b82b1a5d4f2960d6458c",
+      "sha512": "2faa01e04dccde2a544d639cbd8f7d651d28d59e85d67e71b832537aabc0a0ac0a949a4733c68ea5ec814dea49036905819cf2611e1077cebe3cdf88080d0d49",
+      "size": 10171800,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "signerNotAfter": "2027-04-15T18:59:43.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-x64",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.26505",
+      "observedProductVersion": "9.0.21.26505",
+      "fileName": "aspnetcore-runtime-9.0.21-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-x64.exe",
+      "sha256": "abb4c05c976b6d5828e9301a5a9bd3961158eb4635e4d716b19a5d01d7d9a157",
+      "sha512": "cfd2b18485b922fc3d18b1d7d59503c53e056099a3841daf6eac8bdbcfe8574eee7a60f4cdb3c6d06a552cf1d33ac55b38f4fb34c491fe710a85caaaa46817fa",
+      "size": 10699896,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "signerNotAfter": "2027-04-15T18:59:43.0000000Z"
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-x86",
+      "feature": "dotnet-aspnet",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.26505",
+      "observedProductVersion": "9.0.21.26505",
+      "fileName": "aspnetcore-runtime-9.0.21-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-x86.exe",
+      "sha256": "cb330f3abebf8e04dcac49ad2f5beff0be082ccaeaa273e271135fd80df4889b",
+      "sha512": "6a57f405f1fdfb275062cd3d3f3c1dcd6aa1f5c380c00decc9d00aba09186ac1c438d134b765047c35d79cb13d81e624c2f55d72f123a46b3c595dfb0c671c26",
+      "size": 9901080,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "signerNotAfter": "2027-04-15T18:59:43.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-arm64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.50000",
+      "observedProductVersion": "10.0.13.50000",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-arm64.exe",
+      "sha256": "68d651af6e5f184d121b84201df93638ed19e71628b50ae0a4f076131d6013be",
+      "sha512": "399775427df648920cb406e5a42a0847bc4dca93b0dfcb6a7526198dd8356f23e4a87bcae03675f615f6cb58eb2b8e10edb832553ca7011661bf5350e375dee8",
+      "size": 54062376,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-x64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.50000",
+      "observedProductVersion": "10.0.13.50000",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+      "sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6",
+      "sha512": "adaf5e06b66b145848f3a994b51ea1590d19a5c02f6e7c5899ed896bbdb020af6386d2eaef613034d697388adaf48aa8c3291343f0bbb5f8e62e37aff9564a00",
+      "size": 60056984,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-x86",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "10.0.13",
+      "observedFileVersion": "10.0.13.50000",
+      "observedProductVersion": "10.0.13.50000",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x86.exe",
+      "sha256": "f241cf11d6c0151a0b0eee3f02da4d6a6ef9e21e7d54349056e2d65e6ffb0d73",
+      "sha512": "298ba89ac8c1cb18f363c82a44284cfeafa02667b1b40bba39a7fe1900c57c22545383e6d16c19efcfcd29388188f71cac4de6104e261abce91f5a0a4d1b8457",
+      "size": 55616984,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "43A50DB15AC95D0C1D187616AE187467975846D0",
+      "signerNotAfter": "2027-04-15T18:57:39.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-arm64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.36605",
+      "observedProductVersion": "8.0.32.36605",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-arm64.exe",
+      "sha256": "d2fffb301213ec3ac50820d566ba9d1849b4cc06ce007b8823d2f67f4cf4b1f5",
+      "sha512": "f1a2cd597c9184b99c6f66322f98c0a8b67d0bf7fed48d94bb8211e52d91a1fa68711f7da9ea1fa2b480aa0f148419a948b48a81daba48074dd279d3c7a9894b",
+      "size": 54220288,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-x64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.36605",
+      "observedProductVersion": "8.0.32.36605",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-x64.exe",
+      "sha256": "0f45815f9f032095910af092405c9c6d3844b7fe57252f854d65ed9379b45598",
+      "sha512": "34f64d5e365ba85db6ba4af06d382eb7ca4933ac492cb907f417281ed5683babec4beecacb20b195d8bab8d16a273ff13cb6d82523e17e363dcab64f936404f4",
+      "size": 58634504,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "43A50DB15AC95D0C1D187616AE187467975846D0",
+      "signerNotAfter": "2027-04-15T18:57:39.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-x86",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "8.0.32",
+      "observedFileVersion": "8.0.32.36605",
+      "observedProductVersion": "8.0.32.36605",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-x86.exe",
+      "sha256": "6402fc8054d310b7660357c82488948aa89b1d7049c106ead4e9a1d1707a8f33",
+      "sha512": "bc8ea37b6c257d06cb1c6aeb1076c200da899402c3b5cf85bb1265815c335a7c7630ea8d07b535205f545596f9a6324b01529f3db2ba03ae34860aeac290787e",
+      "size": 53836720,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-arm64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.36605",
+      "observedProductVersion": "9.0.21.36605",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-arm64.exe",
+      "sha256": "ed63b8cb723f1b0d872b31fc318aa2cc89ee9797e8772c28c2990bcdda849389",
+      "sha512": "161fc338da509ca4a00a983194ab5b21eaafb3e3f8db6b2138b741c8dc42e2c6118bca902e8b6e9d87e7c422e43262a5b91b06b007bbab9d2307e4bf5223fa5c",
+      "size": 56224936,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "43A50DB15AC95D0C1D187616AE187467975846D0",
+      "signerNotAfter": "2027-04-15T18:57:39.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-x64",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.36605",
+      "observedProductVersion": "9.0.21.36605",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-x64.exe",
+      "sha256": "3e84553cab2edbcb2d5b907d302b1f38d265994522057be65eb9b0361cc19d56",
+      "sha512": "524c12e7c6e97af19e9711c4f5daaeb2b962fd50fe8632a34bd3e5539843642c15766f429f66b557a074ea9be278c209036f3e576edc757fb42d5826b1bb2f5e",
+      "size": 60819728,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-x86",
+      "feature": "dotnet-desktop",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": "9.0.21",
+      "observedFileVersion": "9.0.21.36605",
+      "observedProductVersion": "9.0.21.36605",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-x86.exe",
+      "sha256": "ce85c2feeb765de38b2bf921742ca150dc022f988120c53229ba1ebcc10a56f5",
+      "sha512": "88f7184723ba30036ea3083cb56a39525a869f0c8b3164629ca7b6038f77c35eafe6eb1977025b6e9cc064b6ec1707ad2c76d6d05389bba43b3a22b5c5506688",
+      "size": 55517104,
+      "upstreamSha512Matched": true,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+      "signerNotAfter": "2027-04-15T18:57:41.0000000Z"
+    },
+    {
+      "id": "dotnet-framework-48-offline",
+      "feature": "dotnet-framework",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "candidateVersion": "4.8",
+      "observedFileVersion": "4.8.04115.00",
+      "observedProductVersion": "4.8.04115.00",
+      "fileName": "ndp48-x86-x64-allos-enu.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe",
+      "sha256": "68c9986a8dcc0214d909aa1f31bee9fb5461bb839edca996a75b08ddffc1483f",
+      "sha512": "ffb6c226af4e5c8ffa7210d5115701883abf12a8b1cbae6e08122fb94dd93763468bff5b00060eabef19c147b0a4d8063dde318d2b928ce397c58f7949736c5f",
+      "size": 121307088,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B",
+      "signerNotAfter": "2021-12-02T21:31:45.0000000Z"
+    },
+    {
+      "id": "dotnet-framework-481-offline",
+      "feature": "dotnet-framework",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "candidateVersion": "4.8.1",
+      "observedFileVersion": "4.8.09037.06",
+      "observedProductVersion": "4.8.09037.06",
+      "fileName": "ndp481-x86-x64-allos-enu.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6f083c7e-bd40-44d4-9e3f-ffba71ec8b09/3951fd5af6098f2c7e8ff5c331a0679c/ndp481-x86-x64-allos-enu.exe",
+      "sha256": "859b556ee19a33353626682b8b6f7e9ce97cd325b0d8f24c7770dc31f688d3c1",
+      "sha512": "d9ebb3b34a303acba9213de87cf89006f9b8a84cf1b0f852afe7815abbf672de9239423a4db2bb96d325114970337ed41fe643eb62719cd3e0212fd35d6bed09",
+      "size": 63610344,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173",
+      "signerNotAfter": "2023-05-11T20:46:01.0000000Z"
+    },
+    {
+      "id": "vc-redist-v14-arm64",
+      "feature": "vc-redist-v14",
+      "architectures": [
+        "arm64"
+      ],
+      "candidateVersion": null,
+      "observedFileVersion": "14.51.36247.0",
+      "observedProductVersion": "14.51.36247.0",
+      "fileName": "VC_redist.arm64.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6ad63323-a427-4c58-8464-9f1f19f62359/B70EF586669A620A0A30A1156969C05C6A3831DC8F8BC992DA75779D2A92F944/VC_redist.arm64.exe",
+      "sha256": "b70ef586669a620a0a30a1156969c05c6a3831dc8f8bc992da75779d2a92f944",
+      "sha512": "1b6b606b92002c6f31c0dbe1af412d313bf9d651abb5a4c4457e4ec17e711bff044506f8fdb9f29639fca7742df4775e4b1bea1fb438df456a8446da5ed658ab",
+      "size": 11870816,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "signerNotAfter": "2027-04-15T18:59:41.0000000Z"
+    },
+    {
+      "id": "vc-redist-v14-x64",
+      "feature": "vc-redist-v14",
+      "architectures": [
+        "x64"
+      ],
+      "candidateVersion": null,
+      "observedFileVersion": "14.51.36247.0",
+      "observedProductVersion": "14.51.36247.0",
+      "fileName": "VC_redist.x64.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/ebdab8e5-1d7b-4d9f-a11b-cbb1720c3b12/843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C/VC_redist.x64.exe",
+      "sha256": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+      "sha512": "c42c82cfd5eaa2165b600f6109cb14ff4308cdf4cff656a1375b4a933f1630bfe54c99c4d0fb9ed3bea4dc4e4fdaa3db8e7c58356cca07c2954f4c297757d62d",
+      "size": 18731856,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "signerNotAfter": "2027-04-15T18:59:41.0000000Z"
+    },
+    {
+      "id": "vc-redist-v14-x86",
+      "feature": "vc-redist-v14",
+      "architectures": [
+        "x86"
+      ],
+      "candidateVersion": null,
+      "observedFileVersion": "14.51.36247.0",
+      "observedProductVersion": "14.51.36247.0",
+      "fileName": "VC_redist.x86.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6ad63323-a427-4c58-8464-9f1f19f62359/F0BAB33A302B3CDB2E11113760D016F54FD3D2632C65BA7834FAC4F0ABD7F1A3/VC_redist.x86.exe",
+      "sha256": "f0bab33a302b3cdb2e11113760d016f54fd3d2632c65ba7834fac4f0abd7f1a3",
+      "sha512": "df8e1806e5fb27522e9f985a21ee79c1853bbdaf8a9f3f586e6033ef67f864c578c0673b6eefb86e915e16004a42d262d504d000910d9cfc403f5a7f78fcb575",
+      "size": 6941536,
+      "upstreamSha512Matched": null,
+      "signatureStatus": "Valid",
+      "signerSubject": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "signerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "signerNotAfter": "2027-04-15T18:59:41.0000000Z"
+    }
+  ],
+  "pending": [],
+  "failures": []
+}

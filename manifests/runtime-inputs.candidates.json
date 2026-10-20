@@ -3,7 +3,7 @@
   "kind": "runtime-input-candidates",
   "asOf": "2026-10-20",
   "releaseReady": false,
-  "status": "discovery-only-pending-windows-evidence-licensing-and-independent-review",
+  "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
   "sourceBaseline": {
     "commit": "765ec5c8a4dbe50de83b170c94a13f3bf0e929fa",
     "windowsVerification": "https://github.com/qb20nh/vcredist/actions/runs/33117161240",
@@ -56,9 +56,7 @@
       ]
     },
     "remainingEvidence": [
-      "Download exact canonical bytes on Windows without following unreviewed redirects.",
-      "Verify valid Authenticode signature and exact Microsoft organization identity; record subject, thumbprint, chain/revocation/timestamp evidence.",
-      "Record actual SHA256, SHA512, file size and product version; compare SHA512 with upstream metadata.",
+      "Independently review the preserved Windows byte/signature report and its source inventory digest.",
       "Review included license/ThirdPartyNotices for independent runtime-bundle redistribution.",
       "Define and test per-family/per-cycle/architecture runtime detection, installer arguments, reboot/exit codes, and OS gating.",
       "Independent review before producing manifests/runtime-inputs.lock.json."
@@ -233,7 +231,6 @@
     "releaseStatus": "blocked pending OS gating/package/source/licensing/verification review"
   },
   "releaseBlockers": [
-    "No actual payload byte hashes, sizes or Windows Authenticode evidence have been collected at this checkpoint.",
     "Exact installer license terms and standalone redistribution eligibility require independent review; VC++ runtime-use terms are not a redistribution grant.",
     "Framework ARM64 package coverage is unresolved; x86/x64 coverage is not evidence of native ARM64 support.",
     "Framework version selection needs tested OS gates and installed-version detection; current feature-only authoring is insufficient.",
@@ -260,15 +257,15 @@
       "licenseStatus": "Deployment guidance requires DirectX EULA acceptance combined before installation; actual EULA and redistribution suitability for standalone runtime pack unresolved.",
       "upstreamSha512": null,
       "discoveryUrl": "https://www.microsoft.com/en-us/download/details.aspx?id=8109",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Exact installer license and standalone redistribution review",
         "OS and architecture compatibility review",
         "Installer detection and orchestration implementation",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "directx-june2010-redist"
     },
     {
       "id": "dotnet-aspnet-10-0-13-arm64",
@@ -283,7 +280,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -292,11 +289,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-10-0-13-arm64"
     },
     {
       "id": "dotnet-aspnet-10-0-13-x64",
@@ -311,7 +308,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -320,11 +317,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-10-0-13-x64"
     },
     {
       "id": "dotnet-aspnet-10-0-13-x86",
@@ -339,7 +336,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -348,11 +345,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-10-0-13-x86"
     },
     {
       "id": "dotnet-aspnet-8-0-32-arm64",
@@ -367,7 +364,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -376,11 +373,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-8-0-32-arm64"
     },
     {
       "id": "dotnet-aspnet-8-0-32-x64",
@@ -395,7 +392,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -404,11 +401,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-8-0-32-x64"
     },
     {
       "id": "dotnet-aspnet-8-0-32-x86",
@@ -423,7 +420,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -432,11 +429,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-8-0-32-x86"
     },
     {
       "id": "dotnet-aspnet-9-0-21-arm64",
@@ -451,7 +448,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -460,11 +457,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-9-0-21-arm64"
     },
     {
       "id": "dotnet-aspnet-9-0-21-x64",
@@ -479,7 +476,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -488,11 +485,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-9-0-21-x64"
     },
     {
       "id": "dotnet-aspnet-9-0-21-x86",
@@ -507,7 +504,7 @@
       "metadataComponent": "aspnetcore-runtime",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -516,11 +513,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-aspnet-9-0-21-x86"
     },
     {
       "id": "dotnet-desktop-10-0-13-arm64",
@@ -535,7 +532,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -544,11 +541,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-10-0-13-arm64"
     },
     {
       "id": "dotnet-desktop-10-0-13-x64",
@@ -563,7 +560,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -572,11 +569,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-10-0-13-x64"
     },
     {
       "id": "dotnet-desktop-10-0-13-x86",
@@ -591,7 +588,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -600,11 +597,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-10-0-13-x86"
     },
     {
       "id": "dotnet-desktop-8-0-32-arm64",
@@ -619,7 +616,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -628,11 +625,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-8-0-32-arm64"
     },
     {
       "id": "dotnet-desktop-8-0-32-x64",
@@ -647,7 +644,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -656,11 +653,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-8-0-32-x64"
     },
     {
       "id": "dotnet-desktop-8-0-32-x86",
@@ -675,7 +672,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -684,11 +681,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-8-0-32-x86"
     },
     {
       "id": "dotnet-desktop-9-0-21-arm64",
@@ -703,7 +700,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-arm64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "arm64"
       ],
@@ -712,11 +709,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-9-0-21-arm64"
     },
     {
       "id": "dotnet-desktop-9-0-21-x64",
@@ -731,7 +728,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x64",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x64"
       ],
@@ -740,11 +737,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-9-0-21-x64"
     },
     {
       "id": "dotnet-desktop-9-0-21-x86",
@@ -759,7 +756,7 @@
       "metadataComponent": "windowsdesktop",
       "metadataRid": "win-x86",
       "releaseDate": "2026-10-13",
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "architectures": [
         "x86"
       ],
@@ -768,11 +765,11 @@
       "licenseReviewStatus": "pending-exact-installer-license-and-notices",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Installer license and third-party notice review",
         "OS compatibility, installed-runtime detection, exit-code and invocation review",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-desktop-9-0-21-x86"
     },
     {
       "id": "dotnet-framework-48-offline",
@@ -793,15 +790,15 @@
       "minimumReleaseRegistryValue": 528040,
       "canonicalEvidenceUrl": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8/windowsservercore-ltsc2019/Dockerfile",
       "upstreamSha512": null,
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Exact installer license and standalone redistribution review",
         "OS and architecture compatibility review",
         "Installer detection and orchestration implementation",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-framework-48-offline"
     },
     {
       "id": "dotnet-framework-481-offline",
@@ -823,15 +820,15 @@
       "detectionEvidence": "HKLM\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full Release >= 533320 according to official current detection doc; 4.8.1 release values vary per OS, so use >= minimum instead of exact equality. Burn search authoring pending.",
       "canonicalEvidenceUrl": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8.1/windowsservercore-ltsc2022/Dockerfile",
       "upstreamSha512": null,
-      "status": "pending-windows-evidence-and-independent-review",
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
       "detectCondition": null,
       "pending": [
-        "Windows byte/signature evidence",
         "Exact installer license and standalone redistribution review",
         "OS and architecture compatibility review",
         "Installer detection and orchestration implementation",
         "Independent review before release lockfile"
-      ]
+      ],
+      "evidenceRecord": "dotnet-framework-481-offline"
     },
     {
       "id": "vc-redist-v14-arm64",
@@ -847,12 +844,7 @@
         "observedAt": "2026-10-20T12:20:24Z",
         "canonicalTargetFetched": false
       },
-      "version": null,
-      "sha256": null,
-      "sha512": null,
-      "size": null,
-      "authenticodeStatus": null,
-      "signerSubject": null,
+      "version": "14.51.36247.0",
       "expectedSignerOrganization": "Microsoft Corporation",
       "installArguments": "/install /quiet /norestart",
       "detectCondition": null,
@@ -868,7 +860,6 @@
       "architectureNotes": "Separate official package; target architecture must match the application being supported.",
       "pending": [
         "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
-        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
         "Confirm no unsupported OS will be offered this input.",
         "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
       ],
@@ -876,7 +867,9 @@
         "arm64"
       ],
       "upstreamSha512": null,
-      "status": "pending-windows-evidence-and-independent-review"
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
+      "evidenceRecord": "vc-redist-v14-arm64",
+      "versionEvidence": "Observed Windows ProductVersion; see matching evidenceRecord, not a claim of independent approval."
     },
     {
       "id": "vc-redist-v14-x64",
@@ -892,12 +885,7 @@
         "observedAt": "2026-10-20T12:20:24Z",
         "canonicalTargetFetched": false
       },
-      "version": null,
-      "sha256": null,
-      "sha512": null,
-      "size": null,
-      "authenticodeStatus": null,
-      "signerSubject": null,
+      "version": "14.51.36247.0",
       "expectedSignerOrganization": "Microsoft Corporation",
       "installArguments": "/install /quiet /norestart",
       "detectCondition": null,
@@ -913,7 +901,6 @@
       "architectureNotes": "Microsoft documents that this package contains x64 and ARM64 binaries. Define policy for emulated x64 applications on ARM64 explicitly; do not assume native ARM64 package replaces x86 prerequisites.",
       "pending": [
         "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
-        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
         "Confirm no unsupported OS will be offered this input.",
         "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
       ],
@@ -921,7 +908,9 @@
         "x64"
       ],
       "upstreamSha512": null,
-      "status": "pending-windows-evidence-and-independent-review"
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
+      "evidenceRecord": "vc-redist-v14-x64",
+      "versionEvidence": "Observed Windows ProductVersion; see matching evidenceRecord, not a claim of independent approval."
     },
     {
       "id": "vc-redist-v14-x86",
@@ -937,12 +926,7 @@
         "observedAt": "2026-10-20T12:20:24Z",
         "canonicalTargetFetched": false
       },
-      "version": null,
-      "sha256": null,
-      "sha512": null,
-      "size": null,
-      "authenticodeStatus": null,
-      "signerSubject": null,
+      "version": "14.51.36247.0",
       "expectedSignerOrganization": "Microsoft Corporation",
       "installArguments": "/install /quiet /norestart",
       "detectCondition": null,
@@ -958,7 +942,6 @@
       "architectureNotes": "Separate official package; target architecture must match the application being supported.",
       "pending": [
         "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
-        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
         "Confirm no unsupported OS will be offered this input.",
         "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
       ],
@@ -966,7 +949,19 @@
         "x86"
       ],
       "upstreamSha512": null,
-      "status": "pending-windows-evidence-and-independent-review"
+      "status": "windows-bytes-verified-pending-licensing-integration-and-independent-review",
+      "evidenceRecord": "vc-redist-v14-x86",
+      "versionEvidence": "Observed Windows ProductVersion; see matching evidenceRecord, not a claim of independent approval."
     }
-  ]
+  ],
+  "byteEvidence": {
+    "report": "evidence/runtime-inputs.windows-2026-10-20.json",
+    "workflowRun": "https://github.com/qb20nh/vcredist/actions/runs/39422437273",
+    "collectedAt": "2026-10-20T12:28:37.6814494+00:00",
+    "verifiedPackages": 24,
+    "upstreamSha512Matches": 18,
+    "sourceInventoryHead": "ac50a637759c43026a727b0fbddbe4812bab41ea",
+    "inventoryDigestNote": "The preserved report hashes the original Windows CRLF checkout at the collection commit. Compare with that commit using CRLF, not this subsequently updated inventory. Explicit LF attributes apply to future runs.",
+    "scope": "Byte size, hashes and Microsoft Authenticode only; no installation, license approval or independent release-input review."
+  }
 }

@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - .gitattributes
       - manifests/runtime-inputs.candidates.json
       - tools/Get-RuntimeInputEvidence.ps1
       - tools/RuntimeInputLock.ps1
@@ -36,4 +37,4 @@ jobs:
           name: runtime-input-evidence
           path: artifacts/runtime-input-evidence/evidence.json
           if-no-files-found: ignore
-          retention-days: 14
+          retention-days: 90

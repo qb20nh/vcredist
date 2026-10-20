@@ -1,37 +1,55 @@
 # Runtime input review checkpoint
 
 As of **2026-10-20**, the [candidate inventory](../manifests/runtime-inputs.candidates.json)
-contains **24 unique binary packages**. It records official discovery sources and
-unresolved review fields. No runtime binaries were downloaded or installed to
-prepare this checkpoint, and no release lockfile was created.
+contains **24 unique binary packages**. It records official discovery sources,
+Windows byte/signature evidence, and unresolved review fields. The payloads were
+downloaded temporarily for verification, then removed without execution. No
+release lockfile was created.
 
 ## Source verification
 
 The Windows [Verify source run](https://github.com/qb20nh/vcredist/actions/runs/33117161240)
 succeeded for commit `765ec5c8a4dbe50de83b170c94a13f3bf0e929fa`. Its policy tests,
 Windows PowerShell checks, x86/x64/ARM64 fixture bootstrap builds, and native
-self-tests passed. This establishes source and fixture behavior, not real-input
-installation, standalone packaging, or redistribution rights. The new evidence
-collector has not yet run on Windows.
+self-tests passed. The PR's new [Windows source verification](https://github.com/qb20nh/vcredist/actions/runs/39422436822)
+also passed. This establishes source and fixture behavior, not real-input
+installation, standalone packaging, or redistribution rights.
+
+The [Windows evidence collection](https://github.com/qb20nh/vcredist/actions/runs/39422437273)
+verified **24 valid Microsoft signatures** and **18 matching upstream .NET
+SHA-512 values**, with no pending payloads or failures. The preserved
+[metadata report](../manifests/evidence/runtime-inputs.windows-2026-10-20.json)
+contains each package's actual size, SHA-256, SHA-512, observed version and signer.
+Its formatting is normalized to LF; its recorded values are unchanged.
+
+The report's `inventorySha256` identifies the **CRLF Windows checkout** of the
+inventory at PR head `ac50a637759c43026a727b0fbddbe4812bab41ea`, before this
+checkpoint added evidence references. That digest is
+`272918ccd1c5737eb02407bee84561a252553fcbb193f8974af62d6aea23ba2b`.
+The matching LF Git blob digest is
+`c005fa322e1cd816619287fdd180205d59d9fe6a392369d497199a191db25df1`.
+Explicit `.gitattributes` now keep future inventory checkouts in LF on both
+platforms. The original CI artifact ZIP digest is
+`sha256:59f7614e58bd8fc0b59382fb9ef3ab52bcf4aa0afd92a645ec67fe2d4e5e9451`.
 
 ## Candidate coverage
 
 | Component | Candidate version | Package coverage | Evidence still needed |
 | --- | --- | --- | --- |
-| .NET Desktop and ASP.NET Core 8 | 8.0.32 | Six installers: two families across x86/x64/ARM64 | Actual bytes, Microsoft signature, exact binary license, OS gates and installed-runtime detection |
+| .NET Desktop and ASP.NET Core 8 | 8.0.32 | Six installers: two families across x86/x64/ARM64 | Exact binary license, OS gates and installed-runtime detection |
 | .NET Desktop and ASP.NET Core 9 | 9.0.21 | Six installers across x86/x64/ARM64 | Same |
 | .NET Desktop and ASP.NET Core 10 | 10.0.13 | Six installers across x86/x64/ARM64 | Same |
-| VC++ v14 | File version not yet observed | Three official x86/x64/ARM64 downloads | Windows file version and signature, applicable Visual Studio redistribution grant, skip-newer detection |
-| .NET Framework | 4.8 and 4.8.1 | Two offline installers with x86/x64 discovery evidence | Windows evidence, native ARM64 package coverage, OS-dependent selection, installed Release registry searches, exact EULAs |
-| DirectX June 2010 | 9.29.1974.1 | One archive for x86/x64 legacy components | Windows evidence, EULA review, extraction and actual `DXSETUP.exe /silent` orchestration |
+| VC++ v14 | Observed ProductVersion 14.51.36247.0 | Three official x86/x64/ARM64 downloads | Applicable Visual Studio redistribution grant, skip-newer detection |
+| .NET Framework | 4.8 and 4.8.1 | Two offline installers with x86/x64 discovery evidence | Native ARM64 package coverage, OS-dependent selection, installed Release registry searches, exact EULAs |
+| DirectX June 2010 | 9.29.1974.1 | One archive for x86/x64 legacy components | EULA review, extraction and actual `DXSETUP.exe /silent` orchestration |
 
 The .NET versions were released on 2026-10-13 according to Microsoft's
 [8.0](https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json),
 [9.0](https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json),
 and [10.0](https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json)
 release metadata. The inventory preserves each selected URL and upstream SHA-512,
-plus the SHA-256 of the retrieved metadata snapshot. Upstream digests have not
-been described as locally verified payload hashes.
+plus the SHA-256 of the retrieved metadata snapshot. Published digests and the
+actual Windows byte hashes remain distinct fields in the evidence.
 
 [endoflife.date](https://endoflife.date/dotnet) was used only to choose candidate
 support cycles: 8 and 9 end support on 2026-11-10; 10 ends on 2028-11-14. Refresh
