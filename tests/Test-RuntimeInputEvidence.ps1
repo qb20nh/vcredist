@@ -112,6 +112,33 @@ try {
             throw 'Unsupported-platform collection created an output directory.'
         }
     }
+    else {
+        $originalSourceSha = $env:EVIDENCE_SOURCE_SHA
+        $originalGitHubSha = $env:GITHUB_SHA
+        try {
+            $env:GITHUB_SHA = 'a' * 40
+            $inventory = New-TestInventory
+            foreach ($candidate in $inventory.inputs) { $candidate.sourceUrl = $null }
+            $path = Write-TestInventory $inventory
+            $reportDirectory = Join-Path $testDirectory 'source-report'
+            foreach ($case in @(
+                @{ source = ('b' * 40); expected = ('b' * 40) },
+                @{ source = ''; expected = ('a' * 40) },
+                @{ source = $null; expected = ('a' * 40) }
+            )) {
+                $env:EVIDENCE_SOURCE_SHA = $case.source
+                & $collector -InventoryPath $path -OutputDirectory $reportDirectory
+                $report = Get-Content -LiteralPath (Join-Path $reportDirectory 'evidence.json') -Raw | ConvertFrom-Json
+                if ($report.sourceCommit -cne $case.expected) {
+                    throw "Evidence source commit mismatch: expected '$($case.expected)', got '$($report.sourceCommit)'."
+                }
+            }
+        }
+        finally {
+            $env:EVIDENCE_SOURCE_SHA = $originalSourceSha
+            $env:GITHUB_SHA = $originalGitHubSha
+        }
+    }
     Write-Host 'Runtime input evidence preflight tests passed.'
 }
 finally {

@@ -19,8 +19,12 @@ jobs:
   collect:
     runs-on: windows-2025
     timeout-minutes: 30
+    env:
+      EVIDENCE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ env.EVIDENCE_SOURCE_SHA }}
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           global-json-file: global.json
