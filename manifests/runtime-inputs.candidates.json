@@ -1,0 +1,972 @@
+{
+  "schemaVersion": 1,
+  "kind": "runtime-input-candidates",
+  "asOf": "2026-10-20",
+  "releaseReady": false,
+  "status": "discovery-only-pending-windows-evidence-licensing-and-independent-review",
+  "sourceBaseline": {
+    "commit": "765ec5c8a4dbe50de83b170c94a13f3bf0e929fa",
+    "windowsVerification": "https://github.com/qb20nh/vcredist/actions/runs/33117161240",
+    "conclusion": "success",
+    "scope": "Source policy tests, fixture bootstrap builds for x86/x64/arm64, native artifact self-tests; not real-input installation or standalone evidence"
+  },
+  "supportCycleResearch": {
+    "url": "https://endoflife.date/dotnet",
+    "lastUpdated": "2026-10-14",
+    "supported": [
+      {
+        "cycle": "8",
+        "endOfSupport": "2026-11-10"
+      },
+      {
+        "cycle": "9",
+        "endOfSupport": "2026-11-10"
+      },
+      {
+        "cycle": "10",
+        "endOfSupport": "2028-11-14"
+      }
+    ],
+    "usedFor": "Candidate support-cycle selection only; no binary provenance from this source."
+  },
+  "modernDotnetReview": {
+    "officialWindowsDocumentation": {
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/install/windows",
+      "sourceUpdatedAt": "2026-06-02T18:07:00Z",
+      "facts": [
+        "Both Desktop and ASP.NET Core Runtime required to cover all .NET app types; Desktop includes base .NET runtime, ASP.NET Core Runtime alone does not.",
+        "Official supported-versions table enumerates x86/x64/Arm64 Windows support for cycles 8/9/10, with OS lifecycle restrictions; exact per-cycle gating must be implemented and tested.",
+        "Silent installer switch syntax must be reviewed against installer documentation; do not use detectCondition=0 as a release default."
+      ]
+    },
+    "licensing": {
+      "status": "pending-exact-binary-review",
+      "sourceLicenseUrls": [
+        "https://github.com/dotnet/runtime/blob/main/LICENSE.TXT",
+        "https://github.com/dotnet/windowsdesktop/blob/main/LICENSE",
+        "https://github.com/dotnet/aspnetcore/blob/main/LICENSE.txt"
+      ],
+      "sourceLicense": "MIT",
+      "sourceLicenseQualification": "Repository source licenses do not independently establish the license terms for Microsoft-built Windows runtime installers or their included third-party notices.",
+      "binaryTermsReference": "https://dotnet.microsoft.com/en-us/dotnet_library_license.htm",
+      "binaryTermsQualification": "Official generic .NET Library terms include redistribution restrictions, but applicability to these exact runtime installers has not been established. Inspect actual artifact license and ThirdPartyNotices before selecting licenseUrl or clearing redistribution.",
+      "referenceQuotedClauses": [
+        "3.a.ii: use the Distributable Code in your applications and not as a standalone distribution",
+        "5: may not share, publish, rent or lease the software, provide the software as a stand-alone offering for others to use, or transfer the software or this agreement to any third party (subject to express grant and applicable law)"
+      ]
+    },
+    "remainingEvidence": [
+      "Download exact canonical bytes on Windows without following unreviewed redirects.",
+      "Verify valid Authenticode signature and exact Microsoft organization identity; record subject, thumbprint, chain/revocation/timestamp evidence.",
+      "Record actual SHA256, SHA512, file size and product version; compare SHA512 with upstream metadata.",
+      "Review included license/ThirdPartyNotices for independent runtime-bundle redistribution.",
+      "Define and test per-family/per-cycle/architecture runtime detection, installer arguments, reboot/exit codes, and OS gating.",
+      "Independent review before producing manifests/runtime-inputs.lock.json."
+    ]
+  },
+  "metadataSources": [
+    {
+      "url": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "sha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "lastModifiedHeader": null,
+      "latestMetadataVersion": "8.0.32",
+      "latestMetadataReleaseDate": "2026-10-13",
+      "selectedVersion": "8.0.32",
+      "selectedReleaseDate": "2026-10-13",
+      "endOfSupport": "2026-11-10"
+    },
+    {
+      "url": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "sha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "lastModifiedHeader": null,
+      "latestMetadataVersion": "9.0.21",
+      "latestMetadataReleaseDate": "2026-10-13",
+      "selectedVersion": "9.0.21",
+      "selectedReleaseDate": "2026-10-13",
+      "endOfSupport": "2026-11-10"
+    },
+    {
+      "url": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "sha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "lastModifiedHeader": null,
+      "latestMetadataVersion": "10.0.13",
+      "latestMetadataReleaseDate": "2026-10-13",
+      "selectedVersion": "10.0.13",
+      "selectedReleaseDate": "2026-10-13",
+      "endOfSupport": "2028-11-14"
+    }
+  ],
+  "documentationSources": [
+    {
+      "id": "vcpp-current",
+      "url": "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170",
+      "title": "Microsoft Visual C++ Redistributable latest supported downloads",
+      "observedAt": "2026-10-20",
+      "sourceUpdatedAt": "2026-08-04T17:36:00Z",
+      "evidence": [
+        "Current download table lists ARM64, X86, and X64 via https://aka.ms/vc14/vc_redist.{architecture}.exe.",
+        "The exact latest v14 version is deliberately not listed because it changes frequently; inspect the downloaded installer's File version.",
+        "X64 Redistributable contains both ARM64 and X64 binaries; architecture must match the application target.",
+        "Latest v14 supports Windows 10 and 11 and Windows Server 2016, 2019, 2022, and 2025.",
+        "Redistribution is permitted only for licensed Visual Studio users under applicable Visual Studio license terms."
+      ]
+    },
+    {
+      "id": "vcpp-deployment",
+      "url": "https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files?view=msvc-170",
+      "title": "Redistribute Visual C++ files",
+      "observedAt": "2026-10-20",
+      "sourceUpdatedAt": "2026-04-15T17:42:00Z",
+      "evidence": [
+        "Distribution is limited to licensed Visual Studio users and subject to Microsoft Software License Terms.",
+        "/install, /quiet, and /norestart are supported switches.",
+        "A newer installed version causes the redistributable to return an error even in quiet mode, so skip if the installed version is newer.",
+        "Version is represented by REG_SZ Version and DWORD Major, Minor, Bld, Rbld under HKLM\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\{x86|x64|arm64}; use architecture-appropriate registry view, not an unconditional Wow6432Node prefix.",
+        "The applicable Visual Studio license's Distributable Code grant and REDIST list govern redistribution."
+      ]
+    },
+    {
+      "id": "vcpp-runtime-license",
+      "url": "https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/",
+      "discoveryUrl": "https://aka.ms/VCRedistLicense",
+      "documentUrl": "https://visualstudio.microsoft.com/wp-content/uploads/2025/10/Visual-C-V14-License-Redistributable_and_Runtime_ENU.docx",
+      "title": "Microsoft Visual C++ V14 Redistributable and Runtime license terms",
+      "observedAt": "2026-10-20",
+      "licenseLastUpdated": "2025-10-01",
+      "eulaId": "Cpp_v14_ENU.1033",
+      "evidence": [
+        "Section 1 permits installation and use of any number of copies.",
+        "Section 4(e): You may not share, publish, rent, lease, or otherwise distribute the software or any of its code.",
+        "Section 4(f): You may not provide the software as a stand-alone offering or combined with any of your applications for others to use, or transfer the software or these license terms to any third party.",
+        "These runtime-use terms do not establish redistribution permission. A separate applicable Visual Studio license grant must be identified and reviewed for this project."
+      ]
+    },
+    {
+      "url": "https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481",
+      "evidence": "Official runtime/offline installer page; latest versioned Framework candidate 4.8.1.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net481-offline-installer",
+      "evidence": "Official 4.8.1 offline installer discovery URL; scrape failed/rate-limited, canonical executable URL not established.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer",
+      "evidence": "Official 4.8 offline installer discovery URL; scrape rate-limited, canonical executable URL not established.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/framework/get-started/system-requirements",
+      "evidence": "4.x is in-place; 4.8.1 separately installable on Windows 10 20H2+ in compatibility table, Windows 11 original, Server 2022; already included Windows 11 22H2+ and Server 2025+. Older systems including Server 2019 use4.8. Compatibility is distinct from support lifecycle; table includes stale support footnotes. Retrieved full page and current raw source.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/get-started/system-requirements.md",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/framework/deployment/deployment-guide-for-developers",
+      "evidence": "Offline installer may be included complete with redistribution media; web installer cannot be hosted locally. /q /norestart chaining documented; registry HKLM\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full Release must be >= version threshold. Installer success reboot codes 1641 and 3010.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/install/how-to-determine-which-versions-are-installed.md",
+      "evidence": "Version detection registry Release values; do not invent Burn variables.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/download/details.aspx?id=8109",
+      "evidence": "DirectX June 2010 redist version 9.29.1974.1, published 2024-07-15, file directx_Jun2010_redist.exe, displayed 95.6MB rounded; canonical download link observed. Contains legacy side-by-side D3DX9/10/11,XAudio 2.7,XInput 1.3,XACT,Managed DirectX 1.1; does not replace Windows DirectX; cannot uninstall.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/dxtecharts/directx-setup-for-game-developers",
+      "evidence": "Run dxsetup.exe /silent or DirectSetup; let installer detect components; core DirectX version or individual file presence is insufficient; combine DirectX EULA acceptance before installation; distribution package requires DXSETUP plus dsetup32.dll,dsetup.dll,dxupdate.cab and component CABs.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/win32/docs/desktop-src/DxTechArts/directx-setup-for-game-developers.md",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/framework/install/dotnet-35-windows",
+      "evidence": "Windows 10/Server 2016 onward uses OS component source; non-Windows Update sources must match exact OS version.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/install/dotnet-35-windows.md",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/install/includes/dotnet-35-installer.md",
+      "evidence": "IMPORTANT current 2026 change: Windows 11 26H1 build 28000+ NetFx3 only standalone installer; cannot install as Windows component; official linkid 2337635. ms.date 2026-02-09.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/install/includes/dotnet-35-windows-11-caution-version.md",
+      "evidence": "Windows 11 26H1 build 28000+ must use separate Windows 11 instructions.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/framework/install/dotnet-35-windows-11",
+      "rawSource": "https://raw.githubusercontent.com/dotnet/docs/main/docs/framework/install/dotnet-35-windows-11.md",
+      "evidence": "Windows 11 25H2 andearlier use Windowsfeature installation; Windows 11 26H1 build 28000+ standalone installer. New standalone installer is OS-version-specific. ms.date 2026-02-09.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8/windowsservercore-ltsc2019/Dockerfile",
+      "evidence": "Microsoft official Dockerfile downloads exact canonical installer URL using original Microsoft file; no cryptographic digest in Dockerfile. Fetched current main on2026-10-20. Separate OS servicing patches are NOT incorporated into candidate input or claimed verified.",
+      "observedAt": "2026-10-20"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8.1/windowsservercore-ltsc2022/Dockerfile",
+      "evidence": "Microsoft official Dockerfile downloads exact canonical installer URL using original Microsoft file; no cryptographic digest in Dockerfile. Fetched current main on2026-10-20. Separate OS servicing patches are NOT incorporated into candidate input or claimed verified.",
+      "observedAt": "2026-10-20"
+    }
+  ],
+  "netFx3": {
+    "traditionalPath": "OS DISM servicing only through Windows 10/Windows 11 pre-26H1 and compatible Server releases; use matching Windows Update/component store/enterprise media. No universal downloaded NetFx3 input.",
+    "newWindows11Path": "Windows 11 26H1 (build 28000)+ standalone only; existing NetFx35Enabler DISM path not sufficient.",
+    "newDiscoveryUrl": "https://go.microsoft.com/fwlink/?LinkID=2337635",
+    "sourceUrl": null,
+    "releaseStatus": "blocked pending OS gating/package/source/licensing/verification review"
+  },
+  "releaseBlockers": [
+    "No actual payload byte hashes, sizes or Windows Authenticode evidence have been collected at this checkpoint.",
+    "Exact installer license terms and standalone redistribution eligibility require independent review; VC++ runtime-use terms are not a redistribution grant.",
+    "Framework ARM64 package coverage is unresolved; x86/x64 coverage is not evidence of native ARM64 support.",
+    "Framework version selection needs tested OS gates and installed-version detection; current feature-only authoring is insufficient.",
+    "DirectX extraction and actual DXSETUP orchestration must be implemented before treating the outer archive as installable.",
+    "NetFx3 requires a new standalone path on Windows 11 26H1 build 28000 and later; the existing DISM helper does not cover it.",
+    "Independent review must precede creation of manifests/runtime-inputs.lock.json."
+  ],
+  "inputs": [
+    {
+      "id": "directx-june2010-redist",
+      "feature": "directx-legacy",
+      "version": "9.29.1974.1",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "sourceUrl": "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe",
+      "fileName": "directx_Jun2010_redist.exe",
+      "displayedSize": "95.6MB; rounded only, not lockfile size",
+      "installArguments": null,
+      "actualSetupCommand": "DXSETUP.exe /silent after reviewed extraction/staging",
+      "arm64": "No reviewed native ARM64 payload; exclude from ARM64 bundles. x86/x64 support for legacy DLLs not evidence of native ARM64.",
+      "licenseUrl": "https://learn.microsoft.com/en-us/windows/win32/dxtecharts/directx-setup-for-game-developers",
+      "licenseStatus": "Deployment guidance requires DirectX EULA acceptance combined before installation; actual EULA and redistribution suitability for standalone runtime pack unresolved.",
+      "upstreamSha512": null,
+      "discoveryUrl": "https://www.microsoft.com/en-us/download/details.aspx?id=8109",
+      "status": "pending-windows-evidence-and-independent-review",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Exact installer license and standalone redistribution review",
+        "OS and architecture compatibility review",
+        "Installer detection and orchestration implementation",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-arm64",
+      "feature": "dotnet-aspnet",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "aspnetcore-runtime-10.0.13-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-arm64.exe",
+      "upstreamSha512": "f8d09cbae4b24764e6abcc665cc677d80f9f68db199ece2bcda3de6a75029b9f22541492a85080f36d7190dcf6861be76c3fd4919d083db0b81094938389d2cf",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-x64",
+      "feature": "dotnet-aspnet",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "aspnetcore-runtime-10.0.13-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-x64.exe",
+      "upstreamSha512": "680bf274a7ecc1818d49e1845072aa3064102992fb00547965107938ff6808ea35f832c46f1b4e05231cae47e40e746419c024e5622f7a1254c0dcb946c5c07c",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-10-0-13-x86",
+      "feature": "dotnet-aspnet",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "aspnetcore-runtime-10.0.13-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.13/aspnetcore-runtime-10.0.13-win-x86.exe",
+      "upstreamSha512": "2a7ce1e858f5ad3b17751a888f0d07ec0a2e899137fd4984bfcb8a6c3bc6d5ca33a1ec6e5a92e951dcba2d9408bf22e51cc8b3db1a2abdce8a2558f36ff823af",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-arm64",
+      "feature": "dotnet-aspnet",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "aspnetcore-runtime-8.0.32-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-arm64.exe",
+      "upstreamSha512": "d5dfb8ac0c2668fc9033621bc80721af8d0108025cce5b2ab1efcb3e799e876b81ef11f948aacf5ae2527e7e92ccd97ce927ab7be92d6af0d70036d2e1316641",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-x64",
+      "feature": "dotnet-aspnet",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "aspnetcore-runtime-8.0.32-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-x64.exe",
+      "upstreamSha512": "5de9fd3b3960024de7b1a9980eb50851fe06311b3bf3216cc420de42c668cc37eda9ababbf7dd18df153cc90ca37c5b40829f9a064e45faa354c30494e390485",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-8-0-32-x86",
+      "feature": "dotnet-aspnet",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "aspnetcore-runtime-8.0.32-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.32/aspnetcore-runtime-8.0.32-win-x86.exe",
+      "upstreamSha512": "bbdb70e30f9b224e4380fbdb6c171abbc905322858a2a48e8b9b74cfb2da38c034d05314164bde50616a648d124b925785e9664a84a5f34f8d90fbf5205f516f",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-arm64",
+      "feature": "dotnet-aspnet",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "aspnetcore-runtime-9.0.21-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-arm64.exe",
+      "upstreamSha512": "2faa01e04dccde2a544d639cbd8f7d651d28d59e85d67e71b832537aabc0a0ac0a949a4733c68ea5ec814dea49036905819cf2611e1077cebe3cdf88080d0d49",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-x64",
+      "feature": "dotnet-aspnet",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "aspnetcore-runtime-9.0.21-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-x64.exe",
+      "upstreamSha512": "cfd2b18485b922fc3d18b1d7d59503c53e056099a3841daf6eac8bdbcfe8574eee7a60f4cdb3c6d06a552cf1d33ac55b38f4fb34c491fe710a85caaaa46817fa",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-aspnet-9-0-21-x86",
+      "feature": "dotnet-aspnet",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "aspnetcore-runtime-9.0.21-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/9.0.21/aspnetcore-runtime-9.0.21-win-x86.exe",
+      "upstreamSha512": "6a57f405f1fdfb275062cd3d3f3c1dcd6aa1f5c380c00decc9d00aba09186ac1c438d134b765047c35d79cb13d81e624c2f55d72f123a46b3c595dfb0c671c26",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "aspnetcore-runtime",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-arm64",
+      "feature": "dotnet-desktop",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-arm64.exe",
+      "upstreamSha512": "399775427df648920cb406e5a42a0847bc4dca93b0dfcb6a7526198dd8356f23e4a87bcae03675f615f6cb58eb2b8e10edb832553ca7011661bf5350e375dee8",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-x64",
+      "feature": "dotnet-desktop",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+      "upstreamSha512": "adaf5e06b66b145848f3a994b51ea1590d19a5c02f6e7c5899ed896bbdb020af6386d2eaef613034d697388adaf48aa8c3291343f0bbb5f8e62e37aff9564a00",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-10-0-13-x86",
+      "feature": "dotnet-desktop",
+      "cycle": "10",
+      "version": "10.0.13",
+      "fileName": "windowsdesktop-runtime-10.0.13-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x86.exe",
+      "upstreamSha512": "298ba89ac8c1cb18f363c82a44284cfeafa02667b1b40bba39a7fe1900c57c22545383e6d16c19efcfcd29388188f71cac4de6104e261abce91f5a0a4d1b8457",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+      "metadataSha256": "8ba714cf0020d35ff4a3cb163376df2f4ccaf8e6e1d7021fcb1bd7dd628299d2",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-arm64",
+      "feature": "dotnet-desktop",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-arm64.exe",
+      "upstreamSha512": "f1a2cd597c9184b99c6f66322f98c0a8b67d0bf7fed48d94bb8211e52d91a1fa68711f7da9ea1fa2b480aa0f148419a948b48a81daba48074dd279d3c7a9894b",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-x64",
+      "feature": "dotnet-desktop",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-x64.exe",
+      "upstreamSha512": "34f64d5e365ba85db6ba4af06d382eb7ca4933ac492cb907f417281ed5683babec4beecacb20b195d8bab8d16a273ff13cb6d82523e17e363dcab64f936404f4",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-8-0-32-x86",
+      "feature": "dotnet-desktop",
+      "cycle": "8",
+      "version": "8.0.32",
+      "fileName": "windowsdesktop-runtime-8.0.32-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.32/windowsdesktop-runtime-8.0.32-win-x86.exe",
+      "upstreamSha512": "bc8ea37b6c257d06cb1c6aeb1076c200da899402c3b5cf85bb1265815c335a7c7630ea8d07b535205f545596f9a6324b01529f3db2ba03ae34860aeac290787e",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/8.0/releases.json",
+      "metadataSha256": "dbb319574ff52bc3ec9873334edcde26a0e06e866d9f01a70efbc1f53ea48748",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/8.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-arm64",
+      "feature": "dotnet-desktop",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-arm64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-arm64.exe",
+      "upstreamSha512": "161fc338da509ca4a00a983194ab5b21eaafb3e3f8db6b2138b741c8dc42e2c6118bca902e8b6e9d87e7c422e43262a5b91b06b007bbab9d2307e4bf5223fa5c",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-arm64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "arm64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-x64",
+      "feature": "dotnet-desktop",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-x64.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-x64.exe",
+      "upstreamSha512": "524c12e7c6e97af19e9711c4f5daaeb2b962fd50fe8632a34bd3e5539843642c15766f429f66b557a074ea9be278c209036f3e576edc757fb42d5826b1bb2f5e",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x64",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-desktop-9-0-21-x86",
+      "feature": "dotnet-desktop",
+      "cycle": "9",
+      "version": "9.0.21",
+      "fileName": "windowsdesktop-runtime-9.0.21-win-x86.exe",
+      "sourceUrl": "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.21/windowsdesktop-runtime-9.0.21-win-x86.exe",
+      "upstreamSha512": "88f7184723ba30036ea3083cb56a39525a869f0c8b3164629ca7b6038f77c35eafe6eb1977025b6e9cc064b6ec1707ad2c76d6d05389bba43b3a22b5c5506688",
+      "metadataUrl": "https://builds.dotnet.microsoft.com/dotnet/release-metadata/9.0/releases.json",
+      "metadataSha256": "ffbd9fb69f1a05af0e7cb73b13cd2872c4cc8c403c6e016a4eb03ef8b15d8afb",
+      "metadataComponent": "windowsdesktop",
+      "metadataRid": "win-x86",
+      "releaseDate": "2026-10-13",
+      "status": "pending-windows-evidence-and-independent-review",
+      "architectures": [
+        "x86"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet/9.0",
+      "licenseUrl": null,
+      "licenseReviewStatus": "pending-exact-installer-license-and-notices",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Installer license and third-party notice review",
+        "OS compatibility, installed-runtime detection, exit-code and invocation review",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-framework-48-offline",
+      "feature": "dotnet-framework",
+      "version": "4.8",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe",
+      "fileName": "ndp48-x86-x64-allos-enu.exe",
+      "installArgumentsCandidate": "/q /norestart",
+      "detectionEvidence": "HKLM\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full Release >= target documented threshold; Burn search authoring not yet implemented",
+      "compatibility": "Fallback where 4.8.1 is not compatible, e.g. Windows Server 2019/2016 and older Windows 10. Do not select 4.8 on hosts with 4.8.1 or later. Confirm supported product OS floor separately.",
+      "licenseUrl": "https://learn.microsoft.com/en-us/dotnet/framework/deployment/deployment-guide-for-developers",
+      "licenseStatus": "Deployment guidance permits complete offline installer distribution with apps; actual downloaded installer license still requires capture and review.",
+      "minimumReleaseRegistryValue": 528040,
+      "canonicalEvidenceUrl": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8/windowsservercore-ltsc2019/Dockerfile",
+      "upstreamSha512": null,
+      "status": "pending-windows-evidence-and-independent-review",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Exact installer license and standalone redistribution review",
+        "OS and architecture compatibility review",
+        "Installer detection and orchestration implementation",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "dotnet-framework-481-offline",
+      "feature": "dotnet-framework",
+      "version": "4.8.1",
+      "architectures": [
+        "x86",
+        "x64"
+      ],
+      "nativeArm64Status": "4.8.1 is intended native ARM64-capable, but exact downloadable package architecture coverage not established by retrieved sources; do not duplicate same installer with assumed ARM64 flag.",
+      "discoveryUrl": "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net481-offline-installer",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6f083c7e-bd40-44d4-9e3f-ffba71ec8b09/3951fd5af6098f2c7e8ff5c331a0679c/ndp481-x86-x64-allos-enu.exe",
+      "fileName": "ndp481-x86-x64-allos-enu.exe",
+      "installArgumentsCandidate": "/q /norestart",
+      "compatibility": "Use newest OS-compatible in-place 4.x; already included Windows 11 22H2+ and Server 2025+. Windows 10 20H2+ and Server 2022 listed separately installable in compatibility doc, but lifecycle eligibility must be checked separately.",
+      "licenseUrl": "https://learn.microsoft.com/en-us/dotnet/framework/deployment/deployment-guide-for-developers",
+      "licenseStatus": "Capture and independently review actual installer EULA before release.",
+      "minimumReleaseRegistryValue": 533320,
+      "detectionEvidence": "HKLM\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full Release >= 533320 according to official current detection doc; 4.8.1 release values vary per OS, so use >= minimum instead of exact equality. Burn search authoring pending.",
+      "canonicalEvidenceUrl": "https://raw.githubusercontent.com/microsoft/dotnet-framework-docker/main/src/runtime/4.8.1/windowsservercore-ltsc2022/Dockerfile",
+      "upstreamSha512": null,
+      "status": "pending-windows-evidence-and-independent-review",
+      "detectCondition": null,
+      "pending": [
+        "Windows byte/signature evidence",
+        "Exact installer license and standalone redistribution review",
+        "OS and architecture compatibility review",
+        "Installer detection and orchestration implementation",
+        "Independent review before release lockfile"
+      ]
+    },
+    {
+      "id": "vc-redist-v14-arm64",
+      "feature": "vc-redist-v14",
+      "fileName": "VC_redist.arm64.exe",
+      "discoveryUrl": "https://aka.ms/vc14/vc_redist.arm64.exe",
+      "intermediateUrl": "https://aka.ms/vs/18/release/vc_redist.arm64.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6ad63323-a427-4c58-8464-9f1f19f62359/B70EF586669A620A0A30A1156969C05C6A3831DC8F8BC992DA75779D2A92F944/VC_redist.arm64.exe",
+      "redirectEvidence": {
+        "method": "HEAD",
+        "discoveryStatus": 301,
+        "intermediateStatus": 301,
+        "observedAt": "2026-10-20T12:20:24Z",
+        "canonicalTargetFetched": false
+      },
+      "version": null,
+      "sha256": null,
+      "sha512": null,
+      "size": null,
+      "authenticodeStatus": null,
+      "signerSubject": null,
+      "expectedSignerOrganization": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": null,
+      "detectionEvidence": "vcpp-deployment",
+      "detectionRequirement": "Use the correct registry view for arm64; skip installation when installed v14 Version >= reviewed candidate version. Author/test registry searches and version comparisons before creating a Burn DetectCondition.",
+      "licenseUrl": "https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/",
+      "licenseReviewStatus": "blocked-pending-applicable-redistribution-grant",
+      "sourceEvidence": [
+        "vcpp-current",
+        "vcpp-deployment",
+        "vcpp-runtime-license"
+      ],
+      "architectureNotes": "Separate official package; target architecture must match the application being supported.",
+      "pending": [
+        "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
+        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
+        "Confirm no unsupported OS will be offered this input.",
+        "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
+      ],
+      "architectures": [
+        "arm64"
+      ],
+      "upstreamSha512": null,
+      "status": "pending-windows-evidence-and-independent-review"
+    },
+    {
+      "id": "vc-redist-v14-x64",
+      "feature": "vc-redist-v14",
+      "fileName": "VC_redist.x64.exe",
+      "discoveryUrl": "https://aka.ms/vc14/vc_redist.x64.exe",
+      "intermediateUrl": "https://aka.ms/vs/18/release/vc_redist.x64.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/ebdab8e5-1d7b-4d9f-a11b-cbb1720c3b12/843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C/VC_redist.x64.exe",
+      "redirectEvidence": {
+        "method": "HEAD",
+        "discoveryStatus": 301,
+        "intermediateStatus": 301,
+        "observedAt": "2026-10-20T12:20:24Z",
+        "canonicalTargetFetched": false
+      },
+      "version": null,
+      "sha256": null,
+      "sha512": null,
+      "size": null,
+      "authenticodeStatus": null,
+      "signerSubject": null,
+      "expectedSignerOrganization": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": null,
+      "detectionEvidence": "vcpp-deployment",
+      "detectionRequirement": "Use the correct registry view for x64; skip installation when installed v14 Version >= reviewed candidate version. Author/test registry searches and version comparisons before creating a Burn DetectCondition.",
+      "licenseUrl": "https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/",
+      "licenseReviewStatus": "blocked-pending-applicable-redistribution-grant",
+      "sourceEvidence": [
+        "vcpp-current",
+        "vcpp-deployment",
+        "vcpp-runtime-license"
+      ],
+      "architectureNotes": "Microsoft documents that this package contains x64 and ARM64 binaries. Define policy for emulated x64 applications on ARM64 explicitly; do not assume native ARM64 package replaces x86 prerequisites.",
+      "pending": [
+        "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
+        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
+        "Confirm no unsupported OS will be offered this input.",
+        "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "upstreamSha512": null,
+      "status": "pending-windows-evidence-and-independent-review"
+    },
+    {
+      "id": "vc-redist-v14-x86",
+      "feature": "vc-redist-v14",
+      "fileName": "VC_redist.x86.exe",
+      "discoveryUrl": "https://aka.ms/vc14/vc_redist.x86.exe",
+      "intermediateUrl": "https://aka.ms/vs/18/release/vc_redist.x86.exe",
+      "sourceUrl": "https://download.visualstudio.microsoft.com/download/pr/6ad63323-a427-4c58-8464-9f1f19f62359/F0BAB33A302B3CDB2E11113760D016F54FD3D2632C65BA7834FAC4F0ABD7F1A3/VC_redist.x86.exe",
+      "redirectEvidence": {
+        "method": "HEAD",
+        "discoveryStatus": 301,
+        "intermediateStatus": 301,
+        "observedAt": "2026-10-20T12:20:24Z",
+        "canonicalTargetFetched": false
+      },
+      "version": null,
+      "sha256": null,
+      "sha512": null,
+      "size": null,
+      "authenticodeStatus": null,
+      "signerSubject": null,
+      "expectedSignerOrganization": "Microsoft Corporation",
+      "installArguments": "/install /quiet /norestart",
+      "detectCondition": null,
+      "detectionEvidence": "vcpp-deployment",
+      "detectionRequirement": "Use the correct registry view for x86; skip installation when installed v14 Version >= reviewed candidate version. Author/test registry searches and version comparisons before creating a Burn DetectCondition.",
+      "licenseUrl": "https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/",
+      "licenseReviewStatus": "blocked-pending-applicable-redistribution-grant",
+      "sourceEvidence": [
+        "vcpp-current",
+        "vcpp-deployment",
+        "vcpp-runtime-license"
+      ],
+      "architectureNotes": "Separate official package; target architecture must match the application being supported.",
+      "pending": [
+        "Confirm publisher's applicable Visual Studio license and redistribution grant covers this standalone runtime bundle.",
+        "Download the canonical installer on Windows without following new redirects, then record file version, actual byte length, SHA256, SHA512, Valid Authenticode status and complete signer subject.",
+        "Confirm no unsupported OS will be offered this input.",
+        "Author and integration-test installed-version detection, skip-newer behavior, reboot handling and quiet invocation."
+      ],
+      "architectures": [
+        "x86"
+      ],
+      "upstreamSha512": null,
+      "status": "pending-windows-evidence-and-independent-review"
+    }
+  ]
+}
