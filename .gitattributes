@@ -1,3 +1,4 @@
+/.gitattributes export-ignore
 # Inventory digests must identify the same bytes on Windows and Linux.
 /manifests/runtime-inputs.candidates.json text eol=lf
 /manifests/evidence/*.json text eol=lf
