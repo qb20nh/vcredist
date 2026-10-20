@@ -16,3 +16,19 @@ metadata, so the engine checks the SHA-512 and size of each downloaded file befo
 execution.
 
 Do not commit Microsoft or third-party runtime binaries to this repository.
+
+## Candidate inventory
+
+`runtime-inputs.candidates.json` records discovery evidence as of 2026-10-20. It is
+not a release lockfile: upstream hashes are distinguished from locally verified
+bytes, licensing and detection fields remain unresolved, and the release parser
+rejects this document. One candidate represents one binary, which may support
+multiple architectures; it is not a bundle-selection decision.
+
+See [the input review checkpoint](../docs/RUNTIME-INPUT-REVIEW.md) for sources,
+compatibility and redistribution blockers, and the Windows evidence workflow.
+Validate the inventory without downloading anything:
+
+```powershell
+./tools/Get-RuntimeInputEvidence.ps1 -ValidateOnly
+```

@@ -14,11 +14,12 @@ Both modes expose the same selectable features: VC++ v14, supported .NET
 Desktop and ASP.NET Core runtimes, OS-compatible .NET Framework, and legacy
 DirectX June 2010 side-by-side libraries. ARM32 is deliberately unsupported.
 
-When selected, .NET Framework 3.5 is fully automated through Windows servicing:
-the bundle invokes the operating system's own DISM capability path, which uses
-local component files, an enterprise-configured repair source, or Windows
-Update. It does not embed a mismatched Windows media payload or prompt users
-for a source path.
+On Windows versions that provide .NET Framework 3.5 as an optional component,
+the bundle invokes the operating system's DISM capability path, which uses local
+component files, an enterprise-configured repair source, or Windows Update.
+Windows 11 26H1 (build 28000) and later require a standalone NetFx3 installer;
+that path is not implemented. See the [input review checkpoint](docs/RUNTIME-INPUT-REVIEW.md)
+for this compatibility boundary and the remaining release blockers.
 
 ## What is verified
 
@@ -53,3 +54,7 @@ and it is not uninstallable.
    checksums and attestations, then publishes an immutable release.
 
 No release is published merely to demonstrate this pipeline.
+
+The [candidate input inventory](manifests/runtime-inputs.candidates.json) and
+[review checkpoint](docs/RUNTIME-INPUT-REVIEW.md) record current discovery
+evidence. Candidates cannot be used as the reviewed release lockfile.
